@@ -5,7 +5,7 @@ const admin = require("firebase-admin");
 
 const app = express();
 
-// --- CORS CONFIGURATION (Fixes connection errors) ---
+// --- CORS CONFIGURATION ---
 app.use(cors({
     origin: '*', 
     methods: ['GET', 'POST', 'OPTIONS'],
@@ -22,11 +22,33 @@ try {
         });
         db = admin.firestore();
         console.log("Firebase Admin Initialized ✅");
-    } else {
-        console.error("⚠️ FIREBASE_SERVICE_ACCOUNT environment variable is missing.");
     }
 } catch (err) {
     console.error("Firebase Init Error:", err.message);
+}
+
+// --- MONNIFY HELPER FUNCTIONS ---
+async function getMonnifyToken() {
+    const authString = Buffer.from(`${process.env.MONNIFY_API_KEY}:${process.env.MONNIFY_SECRET_KEY}`).toString('base64');
+    const response = await axios.post('https://sandbox.monnify.com/api/v1/auth/login', {}, {
+        headers: { 'Authorization': `Basic ${authString}` }
+    });
+    return response.data.responseBody.accessToken;
+}
+
+async function reserveAccount(uid, email, fullName) {
+    const token = await getMonnifyToken();
+    const response = await axios.post('https://sandbox.monnify.com/api/v2/bank-transfer/reserved-accounts', {
+        accountReference: uid,
+        accountName: fullName,
+        currencyCode: "NGN",
+        contractCode: process.env.MONNIFY_CONTRACT_CODE,
+        customerEmail: email,
+        getAllAvailableBanks: true
+    }, {
+        headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return response.data.responseBody.accounts[0]; 
 }
 
 // --- ROUTES ---
@@ -34,29 +56,38 @@ app.get("/", (req, res) => {
     res.send("TimmyPay Backend is Running!");
 });
 
-// GET ACCOUNT ROUTE
+// GET ACCOUNT ROUTE (Now with Auto-Generation)
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
     
-    if (!uid) {
-        return res.status(400).json({ success: false, error: "Missing x-user-uid header" });
-    }
-
-    if (!db) {
-        return res.status(500).json({ success: false, error: "Database not initialized" });
-    }
+    if (!uid) return res.status(400).json({ success: false, error: "Missing x-user-uid" });
+    if (!db) return res.status(500).json({ success: false, error: "Database not initialized" });
 
     try {
-        const userDoc = await db.collection("users").doc(uid).get();
+        const userRef = db.collection("users").doc(uid);
+        const userDoc = await userRef.get();
         const userData = userDoc.data();
         
+        // 1. If account already exists, return it
         if (userData && userData.virtualAccount) {
             return res.json({ success: true, ...userData.virtualAccount });
         }
-        res.json({ success: true, message: "Account not found" });
+
+        // 2. If no account, generate via Monnify
+        const newAccount = await reserveAccount(uid, userData.email, userData.fullName);
+        
+        // 3. Save to Firebase
+        await userRef.update({
+            virtualAccount: {
+                accountNumber: newAccount.accountNumber,
+                bankName: newAccount.bankName
+            }
+        });
+
+        res.json({ success: true, accountNumber: newAccount.accountNumber, bankName: newAccount.bankName });
     } catch (error) {
-        console.error("Fetch Error:", error.message);
-        res.status(500).json({ success: false, error: error.message });
+        console.error("Integration Error:", error.response?.data || error.message);
+        res.status(500).json({ success: false, error: "Could not generate account" });
     }
 });
 
@@ -65,4 +96,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
-              
+    
