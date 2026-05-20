@@ -30,24 +30,35 @@ try {
 // --- MONNIFY HELPER FUNCTIONS ---
 async function getMonnifyToken() {
     const authString = Buffer.from(`${process.env.MONNIFY_API_KEY}:${process.env.MONNIFY_SECRET_KEY}`).toString('base64');
-    const response = await axios.post('https://sandbox.monnify.com/api/v1/auth/login', {}, {
-        headers: { 'Authorization': `Basic ${authString}` }
-    });
-    return response.data.responseBody.accessToken;
+    
+    try {
+        const response = await axios.post('https://sandbox.monnify.com/api/v1/auth/login', {}, {
+            headers: { 'Authorization': `Basic ${authString}` }
+        });
+        return response.data.responseBody.accessToken;
+    } catch (error) {
+        console.error("Monnify Auth Error:", error.response?.data || error.message);
+        throw new Error("Failed to authenticate with Monnify");
+    }
 }
 
 async function reserveAccount(uid, email, fullName) {
     const token = await getMonnifyToken();
-    const response = await axios.post('https://sandbox.monnify.com/api/v2/bank-transfer/reserved-accounts', {
+    
+    // Monnify V2 requires accountReference, accountName, currencyCode, contractCode, customerEmail
+    const payload = {
         accountReference: uid,
         accountName: fullName,
         currencyCode: "NGN",
         contractCode: process.env.MONNIFY_CONTRACT_CODE,
         customerEmail: email,
         getAllAvailableBanks: true
-    }, {
-        headers: { 'Authorization': `Bearer ${token}` }
+    };
+
+    const response = await axios.post('https://sandbox.monnify.com/api/v2/bank-transfer/reserved-accounts', payload, {
+        headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
+
     return response.data.responseBody.accounts[0]; 
 }
 
@@ -56,7 +67,7 @@ app.get("/", (req, res) => {
     res.send("TimmyPay Backend is Running!");
 });
 
-// GET ACCOUNT ROUTE (Now with Auto-Generation)
+// GET ACCOUNT ROUTE
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
     
@@ -68,8 +79,10 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
         const userDoc = await userRef.get();
         const userData = userDoc.data();
         
+        if (!userData) return res.status(404).json({ success: false, error: "User not found" });
+
         // 1. If account already exists, return it
-        if (userData && userData.virtualAccount) {
+        if (userData.virtualAccount) {
             return res.json({ success: true, ...userData.virtualAccount });
         }
 
@@ -86,8 +99,8 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
 
         res.json({ success: true, accountNumber: newAccount.accountNumber, bankName: newAccount.bankName });
     } catch (error) {
-        console.error("Integration Error:", error.response?.data || error.message);
-        res.status(500).json({ success: false, error: "Could not generate account" });
+        console.error("Final Integration Error:", error.response?.data || error.message);
+        res.status(500).json({ success: false, error: "Could not generate account", details: error.message });
     }
 });
 
@@ -96,4 +109,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
-    
+        
