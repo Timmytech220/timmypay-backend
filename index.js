@@ -4,7 +4,13 @@ const cors = require("cors");
 const admin = require("firebase-admin");
 
 const app = express();
-app.use(cors());
+
+// --- CORS CONFIGURATION (Fixes connection errors) ---
+app.use(cors({
+    origin: '*', 
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'x-user-uid']
+}));
 app.use(express.json());
 
 // --- FIREBASE SETUP ---
@@ -16,6 +22,8 @@ try {
         });
         db = admin.firestore();
         console.log("Firebase Admin Initialized ✅");
+    } else {
+        console.error("⚠️ FIREBASE_SERVICE_ACCOUNT environment variable is missing.");
     }
 } catch (err) {
     console.error("Firebase Init Error:", err.message);
@@ -29,16 +37,25 @@ app.get("/", (req, res) => {
 // GET ACCOUNT ROUTE
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
-    if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
+    
+    if (!uid) {
+        return res.status(400).json({ success: false, error: "Missing x-user-uid header" });
+    }
+
+    if (!db) {
+        return res.status(500).json({ success: false, error: "Database not initialized" });
+    }
 
     try {
         const userDoc = await db.collection("users").doc(uid).get();
         const userData = userDoc.data();
+        
         if (userData && userData.virtualAccount) {
             return res.json({ success: true, ...userData.virtualAccount });
         }
         res.json({ success: true, message: "Account not found" });
     } catch (error) {
+        console.error("Fetch Error:", error.message);
         res.status(500).json({ success: false, error: error.message });
     }
 });
@@ -48,4 +65,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
-            
+              
