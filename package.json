@@ -1,14 +1,11 @@
 {
   "name": "timmypay-backend",
   "version": "1.0.0",
-  "type": "module", 
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
-  
-}
-
   "dependencies": {
     "axios": "^1.16.1",
     "cors": "^2.8.5",
