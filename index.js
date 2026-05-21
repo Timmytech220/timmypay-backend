@@ -1,6 +1,3 @@
-// Ensure these imports match your Firebase version
-import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-
 
 const express = require("express");
 const axios = require("axios");
