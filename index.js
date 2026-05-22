@@ -1,8 +1,7 @@
-
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-const admin = require("firebase-admin");
+import express from "express";
+import axios from "axios";
+import cors from "cors";
+import admin from "firebase-admin";
 
 const app = express();
 
@@ -46,7 +45,6 @@ async function getMonnifyToken() {
 async function reserveAccount(uid, email, fullName) {
     const token = await getMonnifyToken();
     
-    // Monnify V2 requires accountReference, accountName, currencyCode, contractCode, customerEmail
     const payload = {
         accountReference: uid,
         accountName: fullName,
@@ -82,15 +80,12 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
         
         if (!userData) return res.status(404).json({ success: false, error: "User not found" });
 
-        // 1. If account already exists, return it
         if (userData.virtualAccount) {
             return res.json({ success: true, ...userData.virtualAccount });
         }
 
-        // 2. If no account, generate via Monnify
         const newAccount = await reserveAccount(uid, userData.email, userData.fullName);
         
-        // 3. Save to Firebase
         await userRef.update({
             virtualAccount: {
                 accountNumber: newAccount.accountNumber,
@@ -110,4 +105,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
-        
+            
