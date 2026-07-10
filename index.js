@@ -86,14 +86,22 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
 
         const newAccount = await reserveAccount(uid, userData.email, userData.fullName);
         
+        // Corrected: Now saving accountName to Firestore
         await userRef.update({
             virtualAccount: {
                 accountNumber: newAccount.accountNumber,
-                bankName: newAccount.bankName
+                bankName: newAccount.bankName,
+                accountName: newAccount.accountName
             }
         });
 
-        res.json({ success: true, accountNumber: newAccount.accountNumber, bankName: newAccount.bankName });
+        // Corrected: Now sending accountName to Frontend
+        res.json({ 
+            success: true, 
+            accountNumber: newAccount.accountNumber, 
+            bankName: newAccount.bankName,
+            accountName: newAccount.accountName 
+        });
     } catch (error) {
         console.error("Final Integration Error:", error.response?.data || error.message);
         res.status(500).json({ success: false, error: "Could not generate account", details: error.message });
@@ -105,4 +113,3 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on port ${PORT}`);
 });
-            
