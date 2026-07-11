@@ -5,12 +5,13 @@ import admin from "firebase-admin";
 
 const app = express();
 
-// --- CORS CONFIGURATION ---
-app.use(cors({
-    origin: '*', 
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'x-user-uid']
-}));
+// --- CONFIGURATION ---
+// Set this to 'https://api.monnify.com' when you are ready for LIVE transactions
+const MONNIFY_BASE_URL = process.env.NODE_ENV === 'production' 
+    ? 'https://api.monnify.com' 
+    : 'https://sandbox.monnify.com';
+
+app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
 app.use(express.json());
 
 // --- FIREBASE SETUP ---
@@ -32,7 +33,7 @@ async function getMonnifyToken() {
     const authString = Buffer.from(`${process.env.MONNIFY_API_KEY}:${process.env.MONNIFY_SECRET_KEY}`).toString('base64');
     
     try {
-        const response = await axios.post('https://sandbox.monnify.com/api/v1/auth/login', {}, {
+        const response = await axios.post(`${MONNIFY_BASE_URL}/api/v1/auth/login`, {}, {
             headers: { 'Authorization': `Basic ${authString}` }
         });
         return response.data.responseBody.accessToken;
@@ -54,7 +55,7 @@ async function reserveAccount(uid, email, fullName) {
         getAllAvailableBanks: true
     };
 
-    const response = await axios.post('https://sandbox.monnify.com/api/v2/bank-transfer/reserved-accounts', payload, {
+    const response = await axios.post(`${MONNIFY_BASE_URL}/api/v2/bank-transfer/reserved-accounts`, payload, {
         headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
     });
 
@@ -62,16 +63,11 @@ async function reserveAccount(uid, email, fullName) {
 }
 
 // --- ROUTES ---
-app.get("/", (req, res) => {
-    res.send("TimmyPay Backend is Running!");
-});
+app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
-// GET ACCOUNT ROUTE
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
-    
     if (!uid) return res.status(400).json({ success: false, error: "Missing x-user-uid" });
-    if (!db) return res.status(500).json({ success: false, error: "Database not initialized" });
 
     try {
         const userRef = db.collection("users").doc(uid);
@@ -80,13 +76,19 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
         
         if (!userData) return res.status(404).json({ success: false, error: "User not found" });
 
+        // If account exists, return it. Ensure accountName is present.
         if (userData.virtualAccount) {
-            return res.json({ success: true, ...userData.virtualAccount });
+            return res.json({ 
+                success: true, 
+                accountNumber: userData.virtualAccount.accountNumber || "N/A",
+                bankName: userData.virtualAccount.bankName || "N/A",
+                accountName: userData.virtualAccount.accountName || userData.fullName || "User"
+            });
         }
 
+        // Generate new account
         const newAccount = await reserveAccount(uid, userData.email, userData.fullName);
         
-        // Corrected: Now saving accountName to Firestore
         await userRef.update({
             virtualAccount: {
                 accountNumber: newAccount.accountNumber,
@@ -95,7 +97,6 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
             }
         });
 
-        // Corrected: Now sending accountName to Frontend
         res.json({ 
             success: true, 
             accountNumber: newAccount.accountNumber, 
@@ -108,8 +109,6 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
-// --- PORT SETUP ---
 const PORT = process.env.PORT || 10000;
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
+    
