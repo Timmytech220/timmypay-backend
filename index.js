@@ -7,7 +7,6 @@ const app = express();
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
-// Updated to the correct provider URL
 const NELLOBYTE_BASE_URL = 'https://www.nellobytesystems.com'; 
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
@@ -63,10 +62,23 @@ async function reserveAccount(uid, email, fullName) {
 
 // --- UPDATED NELLOBYTESYSTEMS HELPER FUNCTION ---
 async function buyAirtime(phone, amount, networkCode) {
-    // Generate a unique RequestID for this transaction
+    // Mapping network names to their required IDs from the docs
+    const networkMap = {
+        "MTN": "01",
+        "GLO": "02",
+        "T2MOBILE": "03",
+        "AIRTEL": "04"
+    };
+
+    const normalizedNetwork = networkCode.toUpperCase();
+    const networkID = networkMap[normalizedNetwork];
+
+    if (!networkID) {
+        throw new Error(`Invalid network: ${networkCode}. Please use MTN, GLO, T2MOBILE, or AIRTEL.`);
+    }
+
     const uniqueId = Date.now().toString();
-    // Updated endpoint and parameters to match provider documentation
-    const url = `${NELLOBYTE_BASE_URL}/APIAirtimeV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${networkCode}&Amount=${amount}&MobileNumber=${phone}&RequestID=${uniqueId}`;
+    const url = `${NELLOBYTE_BASE_URL}/APIAirtimeV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${networkID}&Amount=${amount}&MobileNumber=${phone}&RequestID=${uniqueId}`;
     
     const response = await axios.get(url);
     return response.data;
@@ -188,3 +200,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
+                                
