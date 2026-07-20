@@ -7,7 +7,8 @@ const app = express();
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
-const CLUBKONNECT_BASE_URL = 'https://api.clubkonnect.com';
+// Updated to the correct provider URL
+const NELLOBYTE_BASE_URL = 'https://www.nellobytesystems.com'; 
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
 app.use(express.json());
@@ -60,9 +61,12 @@ async function reserveAccount(uid, email, fullName) {
     return response.data.responseBody.accounts[0]; 
 }
 
-// --- CLUBKONNECT HELPER FUNCTION ---
+// --- UPDATED NELLOBYTESYSTEMS HELPER FUNCTION ---
 async function buyAirtime(phone, amount, networkCode) {
-    const url = `${CLUBKONNECT_BASE_URL}/Airtime.asp?userid=${process.env.CK_USERID}&key=${process.env.CK_APIKEY}&phone=${phone}&amount=${amount}&network=${networkCode}&no_pin=1`;
+    // Generate a unique RequestID for this transaction
+    const uniqueId = Date.now().toString();
+    // Updated endpoint and parameters to match provider documentation
+    const url = `${NELLOBYTE_BASE_URL}/APIAirtimeV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${networkCode}&Amount=${amount}&MobileNumber=${phone}&RequestID=${uniqueId}`;
     
     const response = await axios.get(url);
     return response.data;
@@ -133,7 +137,7 @@ app.post("/buy-airtime", async (req, res) => {
 
         const result = await buyAirtime(phone, amount, networkCode);
 
-        // Deduct balance only if ClubKonnect is successful
+        // Deduct balance only if successful
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
         });
@@ -184,4 +188,3 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-                                      
