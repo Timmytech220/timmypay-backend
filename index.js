@@ -105,14 +105,14 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
-// Get Balance Route
+// Get Balance Route (Integrated to look for 'balance')
 app.get("/get-balance", async (req, res) => {
     const uid = req.headers['x-user-uid'];
     if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
 
     try {
         const userDoc = await db.collection("users").doc(uid).get();
-        const balance = userDoc.exists ? (userDoc.data().walletBalance || 0) : 0;
+        const balance = userDoc.exists ? (userDoc.data().balance || 0) : 0;
         res.json({ success: true, balance: balance });
     } catch (error) {
         res.status(500).json({ success: false, error: "Could not fetch balance" });
@@ -121,20 +121,19 @@ app.get("/get-balance", async (req, res) => {
 
 // --- WEBHOOK ROUTE ---
 app.post("/webhook", async (req, res) => {
-    // Monnify sends data within 'eventData'
     const { eventType, eventData } = req.body;
 
     if (eventType === "test_transaction_successful" || eventType === "SUCCESSFUL_TRANSACTION") {
-        // Use the correct path based on Monnify structure
         const amountPaid = eventData.amountPaid || eventData.amount; 
         const accountReference = eventData.product?.reference || eventData.accountReference;
 
         try {
             const userRef = db.collection("users").doc(accountReference);
             await userRef.update({
-                walletBalance: admin.firestore.FieldValue.increment(amountPaid)
+                // Integrated to increment 'balance' field
+                balance: admin.firestore.FieldValue.increment(amountPaid)
             });
-            console.log(`Updated wallet for ${accountReference} with N${amountPaid}`);
+            console.log(`Updated balance for ${accountReference} with N${amountPaid}`);
             return res.status(200).send("Webhook Received");
         } catch (error) {
             console.error("Webhook Update Error:", error);
@@ -146,4 +145,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-                            
+                    
