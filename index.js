@@ -44,7 +44,7 @@ async function reserveAccount(uid, email, fullName) {
     const token = await getMonnifyToken();
     
     const payload = {
-        accountReference: uid, // This is your user UID
+        accountReference: uid,
         accountName: fullName,
         currencyCode: "NGN",
         contractCode: process.env.MONNIFY_CONTRACT_CODE,
@@ -62,6 +62,7 @@ async function reserveAccount(uid, email, fullName) {
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
+// Get Account Route
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
     if (!uid) return res.status(400).json({ success: false, error: "Missing x-user-uid" });
@@ -104,13 +105,29 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
+// Get Balance Route
+app.get("/get-balance", async (req, res) => {
+    const uid = req.headers['x-user-uid'];
+    if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
+
+    try {
+        const userDoc = await db.collection("users").doc(uid).get();
+        const balance = userDoc.exists ? (userDoc.data().walletBalance || 0) : 0;
+        res.json({ success: true, balance: balance });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Could not fetch balance" });
+    }
+});
+
 // --- WEBHOOK ROUTE ---
 app.post("/webhook", async (req, res) => {
-    const { eventType, eventBody } = req.body;
+    // Monnify sends data within 'eventData'
+    const { eventType, eventData } = req.body;
 
-    // Check for success event
-    if (eventType === "test_transaction_successful" || eventType === "PAYMENT_SUCCESSFUL") {
-        const { amountPaid, accountReference } = eventBody; // Monnify usually sends 'accountReference'
+    if (eventType === "test_transaction_successful" || eventType === "SUCCESSFUL_TRANSACTION") {
+        // Use the correct path based on Monnify structure
+        const amountPaid = eventData.amountPaid || eventData.amount; 
+        const accountReference = eventData.product?.reference || eventData.accountReference;
 
         try {
             const userRef = db.collection("users").doc(accountReference);
@@ -129,4 +146,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-        
+                            
