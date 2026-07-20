@@ -6,10 +6,8 @@ import admin from "firebase-admin";
 const app = express();
 
 // --- CONFIGURATION ---
-// Set this to 'https://api.monnify.com' when you are ready for LIVE transactions
-const MONNIFY_BASE_URL = process.env.NODE_ENV === 'production' 
-    ? 'https://api.monnify.com' 
-    : 'https://sandbox.monnify.com';
+// UPDATED: Forced to Sandbox for testing purposes
+const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
 app.use(express.json());
@@ -111,4 +109,4 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-    
+            
