@@ -6,7 +6,6 @@ import admin from "firebase-admin";
 const app = express();
 
 // --- CONFIGURATION ---
-// UPDATED: Forced to Sandbox for testing purposes
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
@@ -45,7 +44,7 @@ async function reserveAccount(uid, email, fullName) {
     const token = await getMonnifyToken();
     
     const payload = {
-        accountReference: uid,
+        accountReference: uid, // This is your user UID
         accountName: fullName,
         currencyCode: "NGN",
         contractCode: process.env.MONNIFY_CONTRACT_CODE,
@@ -74,7 +73,6 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
         
         if (!userData) return res.status(404).json({ success: false, error: "User not found" });
 
-        // If account exists, return it. Ensure accountName is present.
         if (userData.virtualAccount) {
             return res.json({ 
                 success: true, 
@@ -84,7 +82,6 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
             });
         }
 
-        // Generate new account
         const newAccount = await reserveAccount(uid, userData.email, userData.fullName);
         
         await userRef.update({
@@ -107,6 +104,29 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
+// --- WEBHOOK ROUTE ---
+app.post("/webhook", async (req, res) => {
+    const { eventType, eventBody } = req.body;
+
+    // Check for success event
+    if (eventType === "test_transaction_successful" || eventType === "PAYMENT_SUCCESSFUL") {
+        const { amountPaid, accountReference } = eventBody; // Monnify usually sends 'accountReference'
+
+        try {
+            const userRef = db.collection("users").doc(accountReference);
+            await userRef.update({
+                walletBalance: admin.firestore.FieldValue.increment(amountPaid)
+            });
+            console.log(`Updated wallet for ${accountReference} with N${amountPaid}`);
+            return res.status(200).send("Webhook Received");
+        } catch (error) {
+            console.error("Webhook Update Error:", error);
+            return res.status(500).send("Update Failed");
+        }
+    }
+    res.status(200).send("Event ignored");
+});
+
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-            
+        
