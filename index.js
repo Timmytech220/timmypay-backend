@@ -7,7 +7,7 @@ const app = express();
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
-const CLUBKONNECT_BASE_URL = 'https://api.clubkonnect.com'; // Added base URL
+const CLUBKONNECT_BASE_URL = 'https://api.clubkonnect.com';
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
 app.use(express.json());
@@ -62,7 +62,6 @@ async function reserveAccount(uid, email, fullName) {
 
 // --- CLUBKONNECT HELPER FUNCTION ---
 async function buyAirtime(phone, amount, networkCode) {
-    // Note: ensure no_pin=1 is used for API automation
     const url = `${CLUBKONNECT_BASE_URL}/Airtime.asp?userid=${process.env.CK_USERID}&key=${process.env.CK_APIKEY}&phone=${phone}&amount=${amount}&network=${networkCode}&no_pin=1`;
     
     const response = await axios.get(url);
@@ -125,19 +124,23 @@ app.post("/buy-airtime", async (req, res) => {
     try {
         const userRef = db.collection("users").doc(uid);
         const userDoc = await userRef.get();
+        
+        if (!userDoc.exists) return res.status(404).json({ success: false, error: "User not found" });
+        
         const balance = userDoc.data().balance || 0;
 
         if (balance < amount) return res.status(400).json({ success: false, error: "Insufficient balance" });
 
         const result = await buyAirtime(phone, amount, networkCode);
 
-        // Deduct balance only if ClubKonnect returns success
+        // Deduct balance only if ClubKonnect is successful
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
         });
 
         res.json({ success: true, data: result });
     } catch (error) {
+        console.error("AIRTIME ERROR:", error);
         res.status(500).json({ success: false, error: "Airtime purchase failed" });
     }
 });
@@ -181,4 +184,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-        
+                                      
