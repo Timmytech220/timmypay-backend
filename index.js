@@ -9,7 +9,12 @@ const app = express();
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
 const NELLOBYTE_BASE_URL = 'https://www.nellobytesystems.com'; 
 
-app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
+// Added x-user-uid to allowedHeaders to prevent blocking
+app.use(cors({ 
+    origin: '*', 
+    methods: ['GET', 'POST', 'OPTIONS'], 
+    allowedHeaders: ['Content-Type', 'x-user-uid'] 
+}));
 app.use(express.json());
 
 // --- FIREBASE SETUP ---
@@ -60,9 +65,8 @@ async function reserveAccount(uid, email, fullName) {
     return response.data.responseBody.accounts[0]; 
 }
 
-// --- UPDATED NELLOBYTESYSTEMS HELPER FUNCTION ---
+// --- NELLOBYTESYSTEMS HELPER FUNCTION ---
 async function buyAirtime(phone, amount, networkCode) {
-    // Mapping network names to their required IDs from the docs
     const networkMap = {
         "MTN": "01",
         "GLO": "02",
@@ -149,7 +153,6 @@ app.post("/buy-airtime", async (req, res) => {
 
         const result = await buyAirtime(phone, amount, networkCode);
 
-        // Deduct balance only if successful
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
         });
@@ -200,4 +203,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-                                
+                  
