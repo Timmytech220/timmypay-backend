@@ -7,6 +7,7 @@ const app = express();
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
+const CLUBKONNECT_BASE_URL = 'https://api.clubkonnect.com'; // Added base URL
 
 app.use(cors({ origin: '*', methods: ['GET', 'POST', 'OPTIONS'], allowedHeaders: ['Content-Type', 'x-user-uid'] }));
 app.use(express.json());
@@ -59,6 +60,15 @@ async function reserveAccount(uid, email, fullName) {
     return response.data.responseBody.accounts[0]; 
 }
 
+// --- CLUBKONNECT HELPER FUNCTION ---
+async function buyAirtime(phone, amount, networkCode) {
+    // Note: ensure no_pin=1 is used for API automation
+    const url = `${CLUBKONNECT_BASE_URL}/Airtime.asp?userid=${process.env.CK_USERID}&key=${process.env.CK_APIKEY}&phone=${phone}&amount=${amount}&network=${networkCode}&no_pin=1`;
+    
+    const response = await axios.get(url);
+    return response.data;
+}
+
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
@@ -105,7 +115,34 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
-// Get Balance Route (Integrated to look for 'balance')
+// Buy Airtime Route
+app.post("/buy-airtime", async (req, res) => {
+    const uid = req.headers['x-user-uid'];
+    const { phone, amount, networkCode } = req.body;
+    
+    if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
+
+    try {
+        const userRef = db.collection("users").doc(uid);
+        const userDoc = await userRef.get();
+        const balance = userDoc.data().balance || 0;
+
+        if (balance < amount) return res.status(400).json({ success: false, error: "Insufficient balance" });
+
+        const result = await buyAirtime(phone, amount, networkCode);
+
+        // Deduct balance only if ClubKonnect returns success
+        await userRef.update({
+            balance: admin.firestore.FieldValue.increment(-amount)
+        });
+
+        res.json({ success: true, data: result });
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Airtime purchase failed" });
+    }
+});
+
+// Get Balance Route
 app.get("/get-balance", async (req, res) => {
     const uid = req.headers['x-user-uid'];
     if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
@@ -130,7 +167,6 @@ app.post("/webhook", async (req, res) => {
         try {
             const userRef = db.collection("users").doc(accountReference);
             await userRef.update({
-                // Integrated to increment 'balance' field
                 balance: admin.firestore.FieldValue.increment(amountPaid)
             });
             console.log(`Updated balance for ${accountReference} with N${amountPaid}`);
@@ -145,4 +181,4 @@ app.post("/webhook", async (req, res) => {
 
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, '0.0.0.0', () => console.log(`Server is running on port ${PORT}`));
-                    
+        
