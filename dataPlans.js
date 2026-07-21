@@ -692,8 +692,6 @@ AWOOF: {
 
   DIRECT: {
 
-    // Weekly
-
     "499.92": {
       name: "500MB",
       validity: "7 Days",
@@ -711,7 +709,6 @@ AWOOF: {
       price: calculateSellingPrice(775.91),
       networkCode: "03"
     },
-
     "999.92": {
       name: "1.5GB",
       validity: "7 Days",
@@ -720,7 +717,6 @@ AWOOF: {
       price: calculateSellingPrice(969.92),
       networkCode: "03"
     },
-
     "1499.92": {
       name: "3.5GB",
       validity: "7 Days",
@@ -757,7 +753,6 @@ AWOOF: {
       networkCode: "03"
     },
 
-    // Monthly
 
     "1499.93": {
       name: "2GB",
@@ -895,12 +890,7 @@ AWOOF: {
     }
 
   },
-
-
-
-
-
-    
+ 
       
     "9MOBILE": {
     
@@ -1036,7 +1026,7 @@ AWOOF: {
       networkCode: "04"
     }
 
-
+  }
 }
 
 };
