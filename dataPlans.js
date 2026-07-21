@@ -156,7 +156,137 @@ AWOOF: {
 },
 
 
+DIRECT: {
 
+  "2500.01": {
+    name: "6GB Weekly Plan",
+    validity: "7 Days",
+    apiCost: 2425.00,
+    price: calculateSellingPrice(2425.00),
+    networkCode: "01"
+  },
+
+  "3500.01": {
+    name: "11GB Weekly Bundle",
+    validity: "7 Days",
+    apiCost: 3395.00,
+    price: calculateSellingPrice(3395.00),
+    networkCode: "01"
+  },
+
+  "5000.01": {
+    name: "20GB Weekly Plan",
+    validity: "7 Days",
+    apiCost: 4850.00,
+    price: calculateSellingPrice(4850.00),
+    networkCode: "01"
+  },
+
+  "1500.02": {
+    name: "2GB + 2mins Monthly Plan",
+    validity: "30 Days",
+    apiCost: 1455.00,
+    price: calculateSellingPrice(1455.00),
+    networkCode: "01"
+  },
+
+  "2000.01": {
+    name: "2.7GB + 2mins Monthly Plan",
+    validity: "30 Days",
+    apiCost: 1940.00,
+    price: calculateSellingPrice(1940.00),
+    networkCode: "01"
+  },
+
+  "2500.02": {
+    name: "3.5GB + 5mins Monthly Plan",
+    validity: "30 Days",
+    apiCost: 2425.00,
+    price: calculateSellingPrice(2425.00),
+    networkCode: "01"
+  },
+
+  "3500.02": {
+    name: "7GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 3395.00,
+    price: calculateSellingPrice(3395.00),
+    networkCode: "01"
+  },
+
+  "4500.01": {
+    name: "10GB + 10mins Monthly Plan",
+    validity: "30 Days",
+    apiCost: 4365.00,
+    price: calculateSellingPrice(4365.00),
+    networkCode: "01"
+  },
+
+  "5500.01": {
+    name: "12.5GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 5335.00,
+    price: calculateSellingPrice(5335.00),
+    networkCode: "01"
+  },
+
+  "6500.01": {
+    name: "16.5GB + 10mins Monthly Plan",
+    validity: "30 Days",
+    apiCost: 6305.00,
+    price: calculateSellingPrice(6305.00),
+    networkCode: "01"
+  },
+
+  "7500.01": {
+    name: "20GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 7275.00,
+    price: calculateSellingPrice(7275.00),
+    networkCode: "01"
+  },
+
+  "9000.01": {
+    name: "25GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 8730.00,
+    price: calculateSellingPrice(8730.00),
+    networkCode: "01"
+  },
+
+  "11000.01": {
+    name: "36GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 10670.00,
+    price: calculateSellingPrice(10670.00),
+    networkCode: "01"
+  },
+
+  "18000.01": {
+    name: "75GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 17460.00,
+    price: calculateSellingPrice(17460.00),
+    networkCode: "01"
+  },
+
+  "35000.01": {
+    name: "165GB Monthly Plan",
+    validity: "30 Days",
+    apiCost: 33950.00,
+    price: calculateSellingPrice(33950.00),
+    networkCode: "01"
+  },
+
+  "40000.01": {
+    name: "150GB 2-Month Plan",
+    validity: "60 Days",
+    apiCost: 38800.00,
+    price: calculateSellingPrice(38800.00),
+    networkCode: "01"
+  }
+
+},
 
 
       
