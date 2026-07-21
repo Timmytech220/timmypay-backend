@@ -232,6 +232,7 @@ const dataPlans = {
       apiCost: 4850.00,
       price: calculateSellingPrice(4850.00),
       networkCode: "1"
+    }
     },
   
   GLO: {
@@ -480,6 +481,7 @@ const dataPlans = {
       apiCost: 145500.00,
       price: calculateSellingPrice(145500.00),
       networkCode: "2"
+      }
     },
   
   AIRTEL: {
@@ -644,11 +646,12 @@ const dataPlans = {
       apiCost: 58199.91,
       price: calculateSellingPrice(58199.91),
       networkCode: "3"
+      }
     },
 
 
 
-  9MOBILE: {
+    "9MOBILE": {
     "50": {
       name: "50 MB - 30 days (SME)",
       apiCost: 25.00,
