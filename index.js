@@ -104,6 +104,78 @@ async function buyData(phone, network, planId) {
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
+
+
+
+app.post("/buy-data", async (req, res) => {
+    const uid = req.headers["x-user-uid"];
+    const { phone, network, planId } = req.body;
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    try {
+        const plan = dataPlans[network]?.[planId];
+
+        if (!plan) {
+            return res.status(400).json({
+                success: false,
+                error: "Invalid data plan"
+            });
+        }
+
+        const userRef = db.collection("users").doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
+        const balance = userDoc.data().balance || 0;
+
+        if (balance < plan.price) {
+            return res.status(400).json({
+                success: false,
+                error: "Insufficient balance"
+            });
+        }
+
+        const result = await buyData(
+            phone,
+            plan.networkCode,
+            planId
+        );
+
+        await userRef.update({
+            balance: admin.firestore.FieldValue.increment(-plan.price)
+        });
+
+        res.json({
+            success: true,
+            charged: plan.price,
+            apiCost: plan.apiCost,
+            data: result
+        });
+
+    } catch (error) {
+        console.error("BUY DATA ERROR:", error);
+        res.status(500).json({
+            success: false,
+            error: "Data purchase failed"
+        });
+    }
+});
+
+
+
+
 // Get Account Route
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
