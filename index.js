@@ -91,12 +91,27 @@ async function buyAirtime(phone, amount, networkCode) {
 
 
 
-async function buyData(phone, network, planId) {
-    const uniqueId = Date.now().toString();
+// ================================
+// NELLOBYTE DATA PURCHASE FUNCTION
+// ================================
+async function buyData(phone, networkCode, planId) {
 
-    const url = `${NELLOBYTE_BASE_URL}/APIDatabundleV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${network}&DataPlan=${planId}&MobileNumber=${phone}&RequestID=${uniqueId}`;
+    // Generate a unique request ID
+    const requestId = Date.now().toString();
 
+    // Build Nellobytes URL
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIDatabundleV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&MobileNetwork=${networkCode}` +
+        `&DataPlan=${planId}` +
+        `&MobileNumber=${phone}` +
+        `&RequestID=${requestId}`;
+
+    // Send request to Nellobytes
     const response = await axios.get(url);
+
     return response.data;
 }
 
@@ -106,7 +121,9 @@ app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
 
 
-
+// ================================
+// BUY DATA ROUTE
+// ================================
 app.post("/buy-data", async (req, res) => {
     const uid = req.headers["x-user-uid"];
     const { phone, network, planId } = req.body;
