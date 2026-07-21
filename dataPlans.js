@@ -881,16 +881,6 @@ AWOOF: {
     }
   },
   "9MOBILE": {
-    AWOOF: {
-      "500.02": {
-        name: "500MB",
-        validity: "1 Day",
-        category: "AWOOF",
-        apiCost: 465.00,
-        price: calculateSellingPrice(465.00),
-        networkCode: "04"
-      }
-    },
     DIRECT: {
       "1500.01": {
         name: "1.75GB",
