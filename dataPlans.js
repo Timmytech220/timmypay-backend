@@ -232,24 +232,8 @@ const dataPlans = {
       apiCost: 4850.00,
       price: calculateSellingPrice(4850.00),
       networkCode: "1"
-    }
-  }
-
-    
-
-
-  function calculateSellingPrice(apiCost) {
-  if (apiCost < 500) return apiCost + 50;
-  if (apiCost < 1000) return apiCost + 70;
-  if (apiCost < 2000) return apiCost + 100;
-  if (apiCost < 5000) return apiCost + 150;
-  if (apiCost < 10000) return apiCost + 200;
-  if (apiCost < 20000) return apiCost + 300;
-  if (apiCost < 50000) return apiCost + 500;
-  return apiCost + 1000;
-}
-
-const dataPlans = {
+    },
+  
   GLO: {
     "200": {
       name: "200 MB - 14 days (SME)",
@@ -496,8 +480,8 @@ const dataPlans = {
       apiCost: 145500.00,
       price: calculateSellingPrice(145500.00),
       networkCode: "2"
-    }
-  },
+    },
+  
   AIRTEL: {
     "499.91": {
       name: "1GB - 1 day (Awoof Data)",
@@ -660,25 +644,10 @@ const dataPlans = {
       apiCost: 58199.91,
       price: calculateSellingPrice(58199.91),
       networkCode: "3"
-    }
-  }
-};
+    },
 
 
 
-
-function calculateSellingPrice(apiCost) {
-  if (apiCost < 500) return apiCost + 50;
-  if (apiCost < 1000) return apiCost + 70;
-  if (apiCost < 2000) return apiCost + 100;
-  if (apiCost < 5000) return apiCost + 150;
-  if (apiCost < 10000) return apiCost + 200;
-  if (apiCost < 20000) return apiCost + 300;
-  if (apiCost < 50000) return apiCost + 500;
-  return apiCost + 1000;
-}
-
-const dataPlans = {
   "9MOBILE": {
     "50": {
       name: "50 MB - 30 days (SME)",
@@ -868,9 +837,5 @@ const dataPlans = {
     }
   }
 };
-
-module.exports = dataPlans;
-    
-
 module.exports = dataPlans;
         
