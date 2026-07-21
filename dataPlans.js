@@ -317,11 +317,7 @@ DIRECT: {
     networkCode: "01"
   }
 },
-      
-
-
-
-    
+         
   GLO: {
     SME: {
 
@@ -634,12 +630,7 @@ AWOOF: {
     }
   },
 
-  
-
-
-    
-
-    AIRTEL: {
+  AIRTEL: {
 
   AWOOF: {
 
@@ -888,10 +879,7 @@ AWOOF: {
       price: calculateSellingPrice(58199.91),
       networkCode: "03"
     }
-
   },
- 
-
   "9MOBILE": {
     AWOOF: {
       "500.02": {
