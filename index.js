@@ -89,6 +89,18 @@ async function buyAirtime(phone, amount, networkCode) {
     return response.data;
 }
 
+
+
+async function buyData(phone, network, planId) {
+    const uniqueId = Date.now().toString();
+
+    const url = `${NELLOBYTE_BASE_URL}/APIDatabundleV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${network}&DataPlan=${planId}&MobileNumber=${phone}&RequestID=${uniqueId}`;
+
+    const response = await axios.get(url);
+    return response.data;
+}
+
+
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
