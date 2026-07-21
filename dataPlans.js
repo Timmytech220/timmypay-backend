@@ -95,6 +95,69 @@ SME: {
 
 },
 
+AWOOF: {
+
+  "100.01": {
+    name: "110MB Daily Plan",
+    validity: "1 Day",
+    apiCost: 97.00,
+    price: calculateSellingPrice(97.00),
+    networkCode: "01"
+  },
+
+  "200.01": {
+    name: "230MB Daily Plan",
+    validity: "1 Day",
+    apiCost: 194.00,
+    price: calculateSellingPrice(194.00),
+    networkCode: "01"
+  },
+
+  "350.01": {
+    name: "500MB Daily Plan",
+    validity: "1 Day",
+    apiCost: 339.50,
+    price: calculateSellingPrice(339.50),
+    networkCode: "01"
+  },
+
+  "500.01": {
+    name: "1GB Daily Plan + 1.5mins",
+    validity: "1 Day",
+    apiCost: 485.00,
+    price: calculateSellingPrice(485.00),
+    networkCode: "01"
+  },
+
+  "750.01": {
+    name: "2.5GB Daily Plan",
+    validity: "1 Day",
+    apiCost: 727.50,
+    price: calculateSellingPrice(727.50),
+    networkCode: "01"
+  },
+
+  "900.01": {
+    name: "2.5GB 2-Day Plan",
+    validity: "2 Days",
+    apiCost: 873.00,
+    price: calculateSellingPrice(873.00),
+    networkCode: "01"
+  },
+
+  "1000.01": {
+    name: "3.2GB 2-Day Plan",
+    validity: "2 Days",
+    apiCost: 970.00,
+    price: calculateSellingPrice(970.00),
+    networkCode: "01"
+  }
+
+},
+
+
+
+
 
       
   GLO: {
