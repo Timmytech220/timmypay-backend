@@ -904,10 +904,7 @@ AWOOF: {
     
       
     "9MOBILE": {
-      NINEMOBILE: {
-
-  SME: {},
-
+    
   AWOOF: {
 
     "500.02": {
