@@ -11,239 +11,89 @@ function calculateSellingPrice(apiCost) {
 
 
 
-const dataPlans = {
-  MTN: {
+SME: {
 
-    SME: {
-
-      "500": {
-        name: "500 MB - Weekly",
-        apiCost: 307.00,
-        networkCode: "01"
-      },
-
-      "500.00": {
-        name: "500 MB - Monthly",
-        apiCost: 307.00,
-        networkCode: "01"
-      },
-
-      "1000": {
-        name: "1 GB - Weekly",
-        apiCost: 410.00,
-        networkCode: "01"
-      },
-
-      "1000.00": {
-        name: "1 GB - Monthly",
-        apiCost: 563.00,
-        networkCode: "01"
-      },
-
-      "2000": {
-        name: "2 GB - Weekly",
-        apiCost: 820.00,
-        networkCode: "01"
-      },
-
-      "2000.00": {
-        name: "2 GB - Monthly",
-        apiCost: 1117.00,
-        networkCode: "01"
-      },
-
-      "3000": {
-        name: "3 GB - Weekly",
-        apiCost: 1230.00,
-        networkCode: "01"
-      },
-
-      "3000.00": {
-        name: "3 GB - Monthly",
-        apiCost: 1629.00,
-        networkCode: "01"
-      },
-
-      "5000": {
-        name: "5 GB - Weekly",
-        apiCost: 2050.00,
-        networkCode: "01"
-      },
-
-      "5000.00": {
-        name: "5 GB - Monthly",
-        apiCost: 2511.00,
-        networkCode: "01"
-      }
-
-    },
-
-    AWOOF: {
-
-      "100.01": {
-        name: "110MB Daily Plan",
-        apiCost: 97.00,
-        networkCode: "01"
-      },
-
-      "200.01": {
-        name: "230MB Daily Plan",
-        apiCost: 194.00,
-        networkCode: "01"
-      },
-
-      "350.01": {
-        name: "500MB Daily Plan",
-        apiCost: 339.50,
-        networkCode: "01"
-      },
-
-      "500.01": {
-        name: "1GB Daily Plan + 1.5mins",
-        apiCost: 485.00,
-        networkCode: "01"
-      },
-
-      "750.01": {
-        name: "2.5GB Daily Plan",
-        apiCost: 727.50,
-        networkCode: "01"
-      },
-
-      "900.01": {
-        name: "2.5GB 2-Day Plan",
-        apiCost: 873.00,
-        networkCode: "01"
-      },
-
-      "1000.01": {
-        name: "3.2GB 2-Day Plan",
-        apiCost: 970.00,
-        networkCode: "01"
-      }
-
-    },
-
-    DIRECT: {
-  "1500.03": {
-    name: "3.5GB Weekly Plan",
+  "500": {
+    name: "500 MB Weekly",
     validity: "7 Days",
-    apiCost: 1455.00,
+    apiCost: 307.00,
+    price: calculateSellingPrice(307.00),
     networkCode: "01"
   },
 
-  "2500.01": {
-    name: "6GB Weekly Plan",
+  "500.00": {
+    name: "500 MB Monthly",
+    validity: "30 Days",
+    apiCost: 307.00,
+    price: calculateSellingPrice(307.00),
+    networkCode: "01"
+  },
+
+  "1000": {
+    name: "1 GB Weekly",
     validity: "7 Days",
-    apiCost: 2425.00,
+    apiCost: 410.00,
+    price: calculateSellingPrice(410.00),
     networkCode: "01"
   },
 
-  "3500.01": {
-    name: "11GB Weekly Bundle",
+  "1000.00": {
+    name: "1 GB Monthly",
+    validity: "30 Days",
+    apiCost: 563.00,
+    price: calculateSellingPrice(563.00),
+    networkCode: "01"
+  },
+
+  "2000": {
+    name: "2 GB Weekly",
     validity: "7 Days",
-    apiCost: 3395.00,
+    apiCost: 820.00,
+    price: calculateSellingPrice(820.00),
     networkCode: "01"
   },
 
-  "5000.01": {
-    name: "20GB Weekly Plan",
+  "2000.00": {
+    name: "2 GB Monthly",
+    validity: "30 Days",
+    apiCost: 1117.00,
+    price: calculateSellingPrice(1117.00),
+    networkCode: "01"
+  },
+
+  "3000": {
+    name: "3 GB Weekly",
     validity: "7 Days",
-    apiCost: 4850.00,
+    apiCost: 1230.00,
+    price: calculateSellingPrice(1230.00),
     networkCode: "01"
   },
 
-  "1500.02": {
-    name: "2GB + 2mins Monthly Plan",
+  "3000.00": {
+    name: "3 GB Monthly",
     validity: "30 Days",
-    apiCost: 1455.00,
+    apiCost: 1629.00,
+    price: calculateSellingPrice(1629.00),
     networkCode: "01"
   },
 
-  "2000.01": {
-    name: "2.7GB + 2mins Monthly Plan",
+  "5000": {
+    name: "5 GB Weekly",
+    validity: "7 Days",
+    apiCost: 2050.00,
+    price: calculateSellingPrice(2050.00),
+    networkCode: "01"
+  },
+
+  "5000.00": {
+    name: "5 GB Monthly",
     validity: "30 Days",
-    apiCost: 1940.00,
-    networkCode: "01"
-  },
-
-  "2500.02": {
-    name: "3.5GB + 5mins Monthly Plan",
-    validity: "30 Days",
-    apiCost: 2425.00,
-    networkCode: "01"
-  },
-
-  "3500.02": {
-    name: "7GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 3395.00,
-    networkCode: "01"
-  },
-
-  "4500.01": {
-    name: "10GB + 10mins Monthly Plan",
-    validity: "30 Days",
-    apiCost: 4365.00,
-    networkCode: "01"
-  },
-
-  "5500.01": {
-    name: "12.5GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 5335.00,
-    networkCode: "01"
-  },
-
-  "6500.01": {
-    name: "16.5GB + 10mins Monthly Plan",
-    validity: "30 Days",
-    apiCost: 6305.00,
-    networkCode: "01"
-  },
-
-  "7500.01": {
-    name: "20GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 7275.00,
-    networkCode: "01"
-  },
-
-  "9000.01": {
-    name: "25GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 8730.00,
-    networkCode: "01"
-  },
-
-  "11000.01": {
-    name: "36GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 10670.00,
-    networkCode: "01"
-  },
-
-  "18000.01": {
-    name: "75GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 17460.00,
-    networkCode: "01"
-  },
-
-  "35000.01": {
-    name: "165GB Monthly Plan",
-    validity: "30 Days",
-    apiCost: 33950.00,
-    networkCode: "01"
-  },
-
-  "40000.01": {
-    name: "150GB 2-Month Plan",
-    validity: "60 Days",
-    apiCost: 38800.00,
+    apiCost: 2511.00,
+    price: calculateSellingPrice(2511.00),
     networkCode: "01"
   }
-    }
+
+},
 
 
       
