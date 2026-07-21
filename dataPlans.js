@@ -432,7 +432,145 @@ DIRECT: {
 },
 
 
+AWOOF: {
 
+    "500.02": {
+      name: "2GB",
+      validity: "1 Day",
+      apiCost: 485.00,
+      price: calculateSellingPrice(485.00),
+      networkCode: "02"
+    },
+
+    "500.03": {
+      name: "2.5GB Weekend Plan",
+      validity: "Saturday & Sunday",
+      apiCost: 485.00,
+      price: calculateSellingPrice(485.00),
+      networkCode: "02"
+    },
+
+    "200.02": {
+      name: "875MB Weekend Plan",
+      validity: "Sunday Only",
+      apiCost: 194.00,
+      price: calculateSellingPrice(194.00),
+      networkCode: "02"
+    }
+
+  },
+
+
+
+  DIRECT: {
+
+    "4000.01": {
+      name: "12.5GB",
+      validity: "30 Days",
+      apiCost: 3880.00,
+      price: calculateSellingPrice(3880.00),
+      networkCode: "02"
+    },
+
+    "5000.01": {
+      name: "16GB",
+      validity: "30 Days",
+      apiCost: 4850.00,
+      price: calculateSellingPrice(4850.00),
+      networkCode: "02"
+    },
+
+    "8000.01": {
+      name: "28GB",
+      validity: "30 Days",
+      apiCost: 7760.00,
+      price: calculateSellingPrice(7760.00),
+      networkCode: "02"
+    },
+
+    "10000.01": {
+      name: "38GB",
+      validity: "30 Days",
+      apiCost: 9700.00,
+      price: calculateSellingPrice(9700.00),
+      networkCode: "02"
+    },
+
+    "15000.01": {
+      name: "64GB",
+      validity: "30 Days",
+      apiCost: 14550.00,
+      price: calculateSellingPrice(14550.00),
+      networkCode: "02"
+    },
+
+    "20000.01": {
+      name: "107GB",
+      validity: "30 Days",
+      apiCost: 19400.00,
+      price: calculateSellingPrice(19400.00),
+      networkCode: "02"
+    },
+
+    "30000.01": {
+      name: "165GB",
+      validity: "30 Days",
+      apiCost: 29100.00,
+      price: calculateSellingPrice(29100.00),
+      networkCode: "02"
+    },
+
+    "36000.01": {
+      name: "220GB",
+      validity: "30 Days",
+      apiCost: 38800.00,
+      price: calculateSellingPrice(38800.00),
+      networkCode: "02"
+    },
+
+    "50000.01": {
+      name: "320GB",
+      validity: "30 Days",
+      apiCost: 48500.00,
+      price: calculateSellingPrice(48500.00),
+      networkCode: "02"
+    },
+
+    "60000.01": {
+      name: "380GB",
+      validity: "30 Days",
+      apiCost: 58200.00,
+      price: calculateSellingPrice(58200.00),
+      networkCode: "02"
+    },
+
+    "75000.01": {
+      name: "475GB",
+      validity: "30 Days",
+      apiCost: 72750.00,
+      price: calculateSellingPrice(72750.00),
+      networkCode: "02"
+    },
+
+    "150000.03": {
+      name: "1TB",
+      validity: "30 Days",
+      apiCost: 145500.00,
+      price: calculateSellingPrice(145500.00),
+      networkCode: "02"
+    },
+
+    "1500.02": {
+      name: "6GB",
+      validity: "7 Days",
+      apiCost: 1455.00,
+      price: calculateSellingPrice(1455.00),
+      networkCode: "02"
+    }
+
+  },
+
+  
 
 
     
