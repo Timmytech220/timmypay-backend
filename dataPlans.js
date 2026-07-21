@@ -635,9 +635,10 @@ AWOOF: {
       price: calculateSellingPrice(1455.00),
       networkCode: "02"
     }
-
   },
-
+},
+},,
+      
   
 
 
@@ -899,7 +900,8 @@ AWOOF: {
     }
 
   },
-
+},
+},,
 
 
 
@@ -1041,7 +1043,9 @@ AWOOF: {
       networkCode: "04"
     }
 
-  }  
+  },
+},
+
 };
 export default dataPlans;
         
