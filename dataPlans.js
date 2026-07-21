@@ -648,7 +648,7 @@ const dataPlans = {
 
 
 
-  9MOBILE": {
+  9MOBILE: {
     "50": {
       name: "50 MB - 30 days (SME)",
       apiCost: 25.00,
