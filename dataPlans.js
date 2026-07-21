@@ -1037,7 +1037,7 @@ AWOOF: {
     }
 
 
-},
+}
 
 };
 export default dataPlans;
