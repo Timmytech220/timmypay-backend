@@ -316,8 +316,12 @@ DIRECT: {
     price: calculateSellingPrice(38800.00),
     networkCode: "01"
   }
-
+    
+  },
 },
+},
+      
+
 
 
     
