@@ -219,7 +219,7 @@ const dataPlans = {
       name: "165GB Monthly Plan - 30 days (Direct Data)",
       apiCost: 33950.00,
       price: calculateSellingPrice(33950.00),
-      networkCode: "1"
+    networkCode: "1"
     },
     "40000.01": {
       name: "150GB 2-Month Plan - 60 days (Direct Data)",
@@ -235,357 +235,434 @@ const dataPlans = {
     }
   }
 
-
     
+
+
+  function calculateSellingPrice(apiCost) {
+  if (apiCost < 500) return apiCost + 50;
+  if (apiCost < 1000) return apiCost + 70;
+  if (apiCost < 2000) return apiCost + 100;
+  if (apiCost < 5000) return apiCost + 150;
+  if (apiCost < 10000) return apiCost + 200;
+  if (apiCost < 20000) return apiCost + 300;
+  if (apiCost < 50000) return apiCost + 500;
+  return apiCost + 1000;
+}
+
+const dataPlans = {
   GLO: {
     "200": {
       name: "200 MB - 14 days (SME)",
       apiCost: 94.00,
+      price: calculateSellingPrice(94.00),
       networkCode: "2"
     },
     "500": {
       name: "500 MB - 7 days (SME)",
       apiCost: 230.00,
+      price: calculateSellingPrice(230.00),
       networkCode: "2"
     },
     "1000.11": {
       name: "1 GB - 3 days (SME)",
       apiCost: 322.00,
+      price: calculateSellingPrice(322.00),
       networkCode: "2"
     },
     "3000.11": {
       name: "3 GB - 3 days (SME)",
       apiCost: 968.00,
+      price: calculateSellingPrice(968.00),
       networkCode: "2"
     },
     "5000.11": {
       name: "5 GB - 3 days (SME)",
       apiCost: 1614.00,
+      price: calculateSellingPrice(1614.00),
       networkCode: "2"
     },
     "1000.12": {
       name: "1 GB - 7 days (SME)",
       apiCost: 357.00,
+      price: calculateSellingPrice(357.00),
       networkCode: "2"
     },
     "3000.12": {
       name: "3 GB - 7 days (SME)",
       apiCost: 1072.00,
+      price: calculateSellingPrice(1072.00),
       networkCode: "2"
     },
     "5000.12": {
       name: "5 GB - 7 days (SME)",
       apiCost: 1787.00,
+      price: calculateSellingPrice(1787.00),
       networkCode: "2"
     },
     "1000.21": {
       name: "1 GB - 14 days Night Plan (SME)",
       apiCost: 357.00,
+      price: calculateSellingPrice(357.00),
       networkCode: "2"
     },
     "3000.21": {
       name: "3 GB - 14 days Night Plan (SME)",
       apiCost: 1072.00,
+      price: calculateSellingPrice(1072.00),
       networkCode: "2"
     },
     "5000.21": {
       name: "5 GB - 14 days Night Plan (SME)",
       apiCost: 1787.00,
+      price: calculateSellingPrice(1787.00),
       networkCode: "2"
     },
     "10000.21": {
       name: "10 GB - 14 days Night Plan (SME)",
       apiCost: 3574.00,
+      price: calculateSellingPrice(3574.00),
       networkCode: "2"
     },
     "1000": {
       name: "1 GB - 30 days (SME)",
       apiCost: 461.00,
+      price: calculateSellingPrice(461.00),
       networkCode: "2"
     },
     "2000": {
       name: "2 GB - 30 days (SME)",
       apiCost: 922.00,
+      price: calculateSellingPrice(922.00),
       networkCode: "2"
     },
     "3000": {
       name: "3 GB - 30 days (SME)",
       apiCost: 1383.00,
+      price: calculateSellingPrice(1383.00),
       networkCode: "2"
     },
     "5000": {
       name: "5 GB - 30 days (SME)",
       apiCost: 2306.00,
+      price: calculateSellingPrice(2306.00),
       networkCode: "2"
     },
     "10000": {
       name: "10 GB - 30 days (SME)",
       apiCost: 4612.00,
+      price: calculateSellingPrice(4612.00),
       networkCode: "2"
     },
     "100.01": {
       name: "125MB - 1 day (Awoof Data)",
       apiCost: 97.00,
+      price: calculateSellingPrice(97.00),
       networkCode: "2"
     },
     "200.01": {
       name: "260MB - 2 day (Awoof Data)",
       apiCost: 194.00,
+      price: calculateSellingPrice(194.00),
       networkCode: "2"
     },
     "500.01": {
       name: "1.5GB - 14 days (Direct Data)",
       apiCost: 485.00,
+      price: calculateSellingPrice(485.00),
       networkCode: "2"
     },
     "1000.01": {
       name: "2.6GB - 30 days (Direct Data)",
       apiCost: 970.00,
+      price: calculateSellingPrice(970.00),
       networkCode: "2"
     },
     "1500.01": {
       name: "5GB - 30 days (Direct Data)",
       apiCost: 1455.00,
+      price: calculateSellingPrice(1455.00),
       networkCode: "2"
     },
     "2000.01": {
       name: "6.15GB - 30 days (Direct Data)",
       apiCost: 1940.00,
+      price: calculateSellingPrice(1940.00),
       networkCode: "2"
     },
     "2500.01": {
       name: "7.5GB - 30 days (Direct Data)",
       apiCost: 2425.00,
+      price: calculateSellingPrice(2425.00),
       networkCode: "2"
     },
     "3000.01": {
       name: "10GB - 30 days (Direct Data)",
       apiCost: 2910.00,
+      price: calculateSellingPrice(2910.00),
       networkCode: "2"
     },
     "4000.01": {
       name: "12.5GB - 30 days (Direct Data)",
       apiCost: 3880.00,
+      price: calculateSellingPrice(3880.00),
       networkCode: "2"
     },
     "5000.01": {
       name: "16GB - 30 days (Direct Data)",
       apiCost: 4850.00,
+      price: calculateSellingPrice(4850.00),
       networkCode: "2"
     },
     "8000.01": {
       name: "28GB - 30 days (Direct Data)",
       apiCost: 7760.00,
+      price: calculateSellingPrice(7760.00),
       networkCode: "2"
     },
     "10000.01": {
       name: "38GB - 30 days (Direct Data)",
       apiCost: 9700.00,
+      price: calculateSellingPrice(9700.00),
       networkCode: "2"
     },
     "15000.01": {
       name: "64GB - 30 days (Direct Data)",
       apiCost: 14550.00,
+      price: calculateSellingPrice(14550.00),
       networkCode: "2"
     },
     "20000.01": {
       name: "107GB - 30 days (Direct Data)",
       apiCost: 19400.00,
+      price: calculateSellingPrice(19400.00),
       networkCode: "2"
     },
     "500.02": {
       name: "2GB - 1 day (Awoof Data)",
       apiCost: 485.00,
+      price: calculateSellingPrice(485.00),
       networkCode: "2"
     },
     "1500.02": {
       name: "6GB - 7 days (Direct Data)",
       apiCost: 1455.00,
+      price: calculateSellingPrice(1455.00),
       networkCode: "2"
     },
     "500.03": {
       name: "2.5GB - Weekend Plan - [Sat & Sun] (Awoof Data)",
       apiCost: 485.00,
+      price: calculateSellingPrice(485.00),
       networkCode: "2"
     },
     "200.02": {
       name: "875MB - Weekend Plan [Sun] (Awoof Data)",
       apiCost: 194.00,
+      price: calculateSellingPrice(194.00),
       networkCode: "2"
     },
     "30000.01": {
       name: "165GB - 30 days (Direct Data)",
       apiCost: 29100.00,
+      price: calculateSellingPrice(29100.00),
       networkCode: "2"
     },
     "36000.01": {
       name: "220GB - 30 days (Direct Data)",
       apiCost: 38800.00,
+      price: calculateSellingPrice(38800.00),
       networkCode: "2"
     },
     "50000.01": {
       name: "320GB - 30 days (Direct Data)",
       apiCost: 48500.00,
+      price: calculateSellingPrice(48500.00),
       networkCode: "2"
     },
     "60000.01": {
       name: "380GB - 30 days (Direct Data)",
       apiCost: 58200.00,
+      price: calculateSellingPrice(58200.00),
       networkCode: "2"
     },
     "75000.01": {
       name: "475GB - 30 days (Direct Data)",
       apiCost: 72750.00,
+      price: calculateSellingPrice(72750.00),
       networkCode: "2"
     },
     "150000.03": {
-      name: "950GB - 30 days (Direct Data)",
+      name: "1TB - 30 days (Direct Data)",
       apiCost: 145500.00,
+      price: calculateSellingPrice(145500.00),
       networkCode: "2"
     }
-  }
-
-
-
-
+  },
   AIRTEL: {
     "499.91": {
       name: "1GB - 1 day (Awoof Data)",
       apiCost: 484.91,
+      price: calculateSellingPrice(484.91),
       networkCode: "3"
     },
     "599.91": {
       name: "1.5GB - 2 days (Awoof Data)",
       apiCost: 581.91,
+      price: calculateSellingPrice(581.91),
       networkCode: "3"
     },
     "749.91": {
       name: "2GB - 2 days (Awoof Data)",
       apiCost: 727.41,
+      price: calculateSellingPrice(727.41),
       networkCode: "3"
     },
     "999.91": {
       name: "3GB - 2 days (Awoof Data)",
       apiCost: 969.91,
+      price: calculateSellingPrice(969.91),
       networkCode: "3"
     },
     "1499.91": {
       name: "5GB - 2 days (Awoof Data)",
       apiCost: 1454.91,
+      price: calculateSellingPrice(1454.91),
       networkCode: "3"
     },
     "499.92": {
       name: "500MB - 7 days (Direct Data)",
       apiCost: 484.92,
+      price: calculateSellingPrice(484.92),
       networkCode: "3"
     },
     "799.91": {
       name: "1GB - 7 days (Direct Data)",
       apiCost: 775.91,
+      price: calculateSellingPrice(775.91),
       networkCode: "3"
     },
     "999.92": {
       name: "1.5GB - 7 days (Direct Data)",
       apiCost: 969.92,
+      price: calculateSellingPrice(969.92),
       networkCode: "3"
     },
     "1499.92": {
       name: "3.5GB - 7 days (Direct Data)",
       apiCost: 1454.92,
+      price: calculateSellingPrice(1454.92),
       networkCode: "3"
     },
     "2499.91": {
       name: "6GB - 7 days (Direct Data)",
       apiCost: 2424.91,
+      price: calculateSellingPrice(2424.91),
       networkCode: "3"
     },
     "2999.91": {
       name: "10GB - 7 days (Direct Data)",
       apiCost: 2909.91,
+      price: calculateSellingPrice(2909.91),
       networkCode: "3"
     },
     "4999.91": {
       name: "18GB - 7 days (Direct Data)",
       apiCost: 4849.91,
+      price: calculateSellingPrice(4849.91),
       networkCode: "3"
     },
     "1499.93": {
       name: "2GB - 30 days (Direct Data)",
       apiCost: 1454.93,
+      price: calculateSellingPrice(1454.93),
       networkCode: "3"
     },
     "1999.91": {
       name: "3GB - 30 days (Direct Data)",
       apiCost: 1939.91,
+      price: calculateSellingPrice(1939.91),
       networkCode: "3"
     },
     "2499.92": {
       name: "4GB - 30 days (Direct Data)",
       apiCost: 2424.92,
+      price: calculateSellingPrice(2424.92),
       networkCode: "3"
     },
     "2999.92": {
       name: "8GB - 30 days (Direct Data)",
       apiCost: 2909.92,
+      price: calculateSellingPrice(2909.92),
       networkCode: "3"
     },
     "3999.91": {
       name: "10GB - 30 days (Direct Data)",
       apiCost: 3879.91,
+      price: calculateSellingPrice(3879.91),
       networkCode: "3"
     },
     "4999.92": {
       name: "13GB - 30 days (Direct Data)",
       apiCost: 4849.92,
+      price: calculateSellingPrice(4849.92),
       networkCode: "3"
     },
     "5999.91": {
       name: "18GB - 30 days (Direct Data)",
       apiCost: 5819.91,
+      price: calculateSellingPrice(5819.91),
       networkCode: "3"
     },
     "7999.91": {
       name: "25GB - 30 days (Direct Data)",
       apiCost: 7759.91,
+      price: calculateSellingPrice(7759.91),
       networkCode: "3"
     },
     "9999.91": {
       name: "35GB - 30 days (Direct Data)",
       apiCost: 9699.91,
+      price: calculateSellingPrice(9699.91),
       networkCode: "3"
     },
     "14999.91": {
       name: "60GB - 30 days (Direct Data)",
       apiCost: 14549.91,
+      price: calculateSellingPrice(14549.91),
       networkCode: "3"
     },
     "19999.91": {
       name: "100GB - 30 days (Direct Data)",
       apiCost: 19399.91,
+      price: calculateSellingPrice(19399.91),
       networkCode: "3"
     },
     "29999.91": {
       name: "160GB - 30 days (Direct Data)",
       apiCost: 29099.91,
+      price: calculateSellingPrice(29099.91),
       networkCode: "3"
     },
     "39999.91": {
       name: "210GB - 30 days (Direct Data)",
       apiCost: 38799.91,
+      price: calculateSellingPrice(38799.91),
       networkCode: "3"
     },
     "49999.91": {
       name: "300GB - 90 days (Direct Data)",
       apiCost: 48499.91,
+      price: calculateSellingPrice(4849.91),
       networkCode: "3"
     },
     "59999.91": {
       name: "350GB - 90 days (Direct Data)",
       apiCost: 58199.91,
+      price: calculateSellingPrice(58199.91),
       networkCode: "3"
     }
   }
+};
 
-      
 module.exports = dataPlans;
-    
+        
