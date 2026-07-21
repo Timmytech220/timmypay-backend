@@ -316,9 +316,6 @@ DIRECT: {
     price: calculateSellingPrice(38800.00),
     networkCode: "01"
   }
-    
-  },
-},
 },
       
 
@@ -636,9 +633,7 @@ AWOOF: {
       networkCode: "02"
     }
   },
-},
-},,
-      
+
   
 
 
@@ -900,8 +895,6 @@ AWOOF: {
     }
 
   },
-},
-},,
 
 
 
@@ -1043,7 +1036,7 @@ AWOOF: {
       networkCode: "04"
     }
 
-  },
+
 },
 
 };
