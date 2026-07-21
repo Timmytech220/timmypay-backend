@@ -15,7 +15,7 @@ const dataPlans = {
   "500": {
     name: "500 MB Weekly",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 307.00,
     price: calculateSellingPrice(307.00),
     networkCode: "01"
@@ -24,7 +24,7 @@ const dataPlans = {
   "500.00": {
     name: "500 MB Monthly",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 307.00,
     price: calculateSellingPrice(307.00),
     networkCode: "01"
@@ -33,7 +33,7 @@ const dataPlans = {
   "1000": {
     name: "1 GB Weekly",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 410.00,
     price: calculateSellingPrice(410.00),
     networkCode: "01"
@@ -42,7 +42,7 @@ const dataPlans = {
   "1000.00": {
     name: "1 GB Monthly",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 563.00,
     price: calculateSellingPrice(563.00),
     networkCode: "01"
@@ -51,7 +51,7 @@ const dataPlans = {
   "2000": {
     name: "2 GB Weekly",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 820.00,
     price: calculateSellingPrice(820.00),
     networkCode: "01"
@@ -60,7 +60,7 @@ const dataPlans = {
   "2000.00": {
     name: "2 GB Monthly",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1117.00,
     price: calculateSellingPrice(1117.00),
     networkCode: "01"
@@ -69,7 +69,7 @@ const dataPlans = {
   "3000": {
     name: "3 GB Weekly",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1230.00,
     price: calculateSellingPrice(1230.00),
     networkCode: "01"
@@ -78,7 +78,7 @@ const dataPlans = {
   "3000.00": {
     name: "3 GB Monthly",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1629.00,
     price: calculateSellingPrice(1629.00),
     networkCode: "01"
@@ -87,7 +87,7 @@ const dataPlans = {
   "5000": {
     name: "5 GB Weekly",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 2050.00,
     price: calculateSellingPrice(2050.00),
     networkCode: "01"
@@ -96,7 +96,7 @@ const dataPlans = {
   "5000.00": {
     name: "5 GB Monthly",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 2511.00,
     price: calculateSellingPrice(2511.00),
     networkCode: "01"
@@ -109,7 +109,7 @@ AWOOF: {
   "100.01": {
     name: "110MB Daily Plan",
     validity: "1 Day",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 97.00,
     price: calculateSellingPrice(97.00),
     networkCode: "01"
@@ -118,7 +118,7 @@ AWOOF: {
   "200.01": {
     name: "230MB Daily Plan",
     validity: "1 Day",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 194.00,
     price: calculateSellingPrice(194.00),
     networkCode: "01"
@@ -127,7 +127,7 @@ AWOOF: {
   "350.01": {
     name: "500MB Daily Plan",
     validity: "1 Day",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 339.50,
     price: calculateSellingPrice(339.50),
     networkCode: "01"
@@ -144,7 +144,7 @@ AWOOF: {
   "750.01": {
     name: "2.5GB Daily Plan",
     validity: "1 Day",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 727.50,
     price: calculateSellingPrice(727.50),
     networkCode: "01"
@@ -153,7 +153,7 @@ AWOOF: {
   "900.01": {
     name: "2.5GB 2-Day Plan",
     validity: "2 Days",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 873.00,
     price: calculateSellingPrice(873.00),
     networkCode: "01"
@@ -162,7 +162,7 @@ AWOOF: {
   "1000.01": {
     name: "3.2GB 2-Day Plan",
     validity: "2 Days",
-      category: "AWOOF",
+    category: "AWOOF",
     apiCost: 970.00,
     price: calculateSellingPrice(970.00),
     networkCode: "01"
@@ -176,7 +176,7 @@ DIRECT: {
   "2500.01": {
     name: "6GB Weekly Plan",
     validity: "7 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 2425.00,
     price: calculateSellingPrice(2425.00),
     networkCode: "01"
@@ -185,7 +185,7 @@ DIRECT: {
   "3500.01": {
     name: "11GB Weekly Bundle",
     validity: "7 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 3395.00,
     price: calculateSellingPrice(3395.00),
     networkCode: "01"
@@ -194,7 +194,7 @@ DIRECT: {
   "5000.01": {
     name: "20GB Weekly Plan",
     validity: "7 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 4850.00,
     price: calculateSellingPrice(4850.00),
     networkCode: "01"
@@ -203,7 +203,7 @@ DIRECT: {
   "1500.02": {
     name: "2GB + 2mins Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 1455.00,
     price: calculateSellingPrice(1455.00),
     networkCode: "01"
@@ -212,7 +212,7 @@ DIRECT: {
   "2000.01": {
     name: "2.7GB + 2mins Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 1940.00,
     price: calculateSellingPrice(1940.00),
     networkCode: "01"
@@ -221,7 +221,7 @@ DIRECT: {
   "2500.02": {
     name: "3.5GB + 5mins Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 2425.00,
     price: calculateSellingPrice(2425.00),
     networkCode: "01"
@@ -230,7 +230,7 @@ DIRECT: {
   "3500.02": {
     name: "7GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 3395.00,
     price: calculateSellingPrice(3395.00),
     networkCode: "01"
@@ -239,7 +239,7 @@ DIRECT: {
   "4500.01": {
     name: "10GB + 10mins Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 4365.00,
     price: calculateSellingPrice(4365.00),
     networkCode: "01"
@@ -248,7 +248,7 @@ DIRECT: {
   "5500.01": {
     name: "12.5GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 5335.00,
     price: calculateSellingPrice(5335.00),
     networkCode: "01"
@@ -257,7 +257,7 @@ DIRECT: {
   "6500.01": {
     name: "16.5GB + 10mins Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 6305.00,
     price: calculateSellingPrice(6305.00),
     networkCode: "01"
@@ -266,7 +266,7 @@ DIRECT: {
   "7500.01": {
     name: "20GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 7275.00,
     price: calculateSellingPrice(7275.00),
     networkCode: "01"
@@ -275,7 +275,7 @@ DIRECT: {
   "9000.01": {
     name: "25GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 8730.00,
     price: calculateSellingPrice(8730.00),
     networkCode: "01"
@@ -284,7 +284,7 @@ DIRECT: {
   "11000.01": {
     name: "36GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 10670.00,
     price: calculateSellingPrice(10670.00),
     networkCode: "01"
@@ -293,7 +293,7 @@ DIRECT: {
   "18000.01": {
     name: "75GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 17460.00,
     price: calculateSellingPrice(17460.00),
     networkCode: "01"
@@ -302,7 +302,7 @@ DIRECT: {
   "35000.01": {
     name: "165GB Monthly Plan",
     validity: "30 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 33950.00,
     price: calculateSellingPrice(33950.00),
     networkCode: "01"
@@ -311,7 +311,7 @@ DIRECT: {
   "40000.01": {
     name: "150GB 2-Month Plan",
     validity: "60 Days",
-      category: "DIRECT",
+    category: "DIRECT",
     apiCost: 38800.00,
     price: calculateSellingPrice(38800.00),
     networkCode: "01"
@@ -324,7 +324,7 @@ DIRECT: {
   "200": {
     name: "200MB",
     validity: "14 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 94.00,
     price: calculateSellingPrice(94.00),
     networkCode: "02"
@@ -333,7 +333,7 @@ DIRECT: {
   "500": {
     name: "500MB",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 230.00,
     price: calculateSellingPrice(230.00),
     networkCode: "02"
@@ -342,7 +342,7 @@ DIRECT: {
   "1000.11": {
     name: "1GB",
     validity: "3 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 322.00,
     price: calculateSellingPrice(322.00),
     networkCode: "02"
@@ -351,7 +351,7 @@ DIRECT: {
   "3000.11": {
     name: "3GB",
     validity: "3 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 968.00,
     price: calculateSellingPrice(968.00),
     networkCode: "02"
@@ -360,7 +360,7 @@ DIRECT: {
   "5000.11": {
     name: "5GB",
     validity: "3 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1614.00,
     price: calculateSellingPrice(1614.00),
     networkCode: "02"
@@ -369,7 +369,7 @@ DIRECT: {
   "1000.12": {
     name: "1GB",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 357.00,
     price: calculateSellingPrice(357.00),
     networkCode: "02"
@@ -378,7 +378,7 @@ DIRECT: {
   "3000.12": {
     name: "3GB",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1072.00,
     price: calculateSellingPrice(1072.00),
     networkCode: "02"
@@ -387,7 +387,7 @@ DIRECT: {
   "5000.12": {
     name: "5GB",
     validity: "7 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1787.00,
     price: calculateSellingPrice(1787.00),
     networkCode: "02"
@@ -396,7 +396,7 @@ DIRECT: {
   "1000.21": {
     name: "1GB Night Plan",
     validity: "14 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 357.00,
     price: calculateSellingPrice(357.00),
     networkCode: "02"
@@ -405,7 +405,7 @@ DIRECT: {
   "3000.21": {
     name: "3GB Night Plan",
     validity: "14 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1072.00,
     price: calculateSellingPrice(1072.00),
     networkCode: "02"
@@ -414,7 +414,7 @@ DIRECT: {
   "5000.21": {
     name: "5GB Night Plan",
     validity: "14 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1787.00,
     price: calculateSellingPrice(1787.00),
     networkCode: "02"
@@ -423,7 +423,7 @@ DIRECT: {
   "10000.21": {
     name: "10GB Night Plan",
     validity: "14 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 3574.00,
     price: calculateSellingPrice(3574.00),
     networkCode: "02"
@@ -432,7 +432,7 @@ DIRECT: {
   "1000": {
     name: "1GB",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 461.00,
     price: calculateSellingPrice(461.00),
     networkCode: "02"
@@ -441,7 +441,7 @@ DIRECT: {
   "2000": {
     name: "2GB",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 922.00,
     price: calculateSellingPrice(922.00),
     networkCode: "02"
@@ -450,7 +450,7 @@ DIRECT: {
   "3000": {
     name: "3GB",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 1383.00,
     price: calculateSellingPrice(1383.00),
     networkCode: "02"
@@ -459,7 +459,7 @@ DIRECT: {
   "5000": {
     name: "5GB",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 2306.00,
     price: calculateSellingPrice(2306.00),
     networkCode: "02"
@@ -468,7 +468,7 @@ DIRECT: {
   "10000": {
     name: "10GB",
     validity: "30 Days",
-      category: "SME",
+    category: "SME",
     apiCost: 4612.00,
     price: calculateSellingPrice(4612.00),
     networkCode: "02"
@@ -482,7 +482,7 @@ AWOOF: {
     "500.02": {
       name: "2GB",
       validity: "1 Day",
-        category: "AWOOF",
+      category: "AWOOF",
       apiCost: 485.00,
       price: calculateSellingPrice(485.00),
       networkCode: "02"
@@ -491,7 +491,7 @@ AWOOF: {
     "500.03": {
       name: "2.5GB Weekend Plan",
       validity: "Saturday & Sunday",
-        category: "AWOOF",
+      category: "AWOOF",
       apiCost: 485.00,
       price: calculateSellingPrice(485.00),
       networkCode: "02"
@@ -500,7 +500,7 @@ AWOOF: {
     "200.02": {
       name: "875MB Weekend Plan",
       validity: "Sunday Only",
-        category: "AWOOF",
+      category: "AWOOF",
       apiCost: 194.00,
       price: calculateSellingPrice(194.00),
       networkCode: "02"
@@ -515,7 +515,7 @@ AWOOF: {
     "4000.01": {
       name: "12.5GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 3880.00,
       price: calculateSellingPrice(3880.00),
       networkCode: "02"
@@ -524,7 +524,7 @@ AWOOF: {
     "5000.01": {
       name: "16GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 4850.00,
       price: calculateSellingPrice(4850.00),
       networkCode: "02"
@@ -533,7 +533,7 @@ AWOOF: {
     "8000.01": {
       name: "28GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 7760.00,
       price: calculateSellingPrice(7760.00),
       networkCode: "02"
@@ -542,7 +542,7 @@ AWOOF: {
     "10000.01": {
       name: "38GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 9700.00,
       price: calculateSellingPrice(9700.00),
       networkCode: "02"
@@ -551,7 +551,7 @@ AWOOF: {
     "15000.01": {
       name: "64GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 14550.00,
       price: calculateSellingPrice(14550.00),
       networkCode: "02"
@@ -560,7 +560,7 @@ AWOOF: {
     "20000.01": {
       name: "107GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 19400.00,
       price: calculateSellingPrice(19400.00),
       networkCode: "02"
@@ -569,7 +569,7 @@ AWOOF: {
     "30000.01": {
       name: "165GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 29100.00,
       price: calculateSellingPrice(29100.00),
       networkCode: "02"
@@ -578,7 +578,7 @@ AWOOF: {
     "36000.01": {
       name: "220GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 38800.00,
       price: calculateSellingPrice(38800.00),
       networkCode: "02"
@@ -587,7 +587,7 @@ AWOOF: {
     "50000.01": {
       name: "320GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 48500.00,
       price: calculateSellingPrice(48500.00),
       networkCode: "02"
@@ -596,7 +596,7 @@ AWOOF: {
     "60000.01": {
       name: "380GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 58200.00,
       price: calculateSellingPrice(58200.00),
       networkCode: "02"
@@ -605,7 +605,7 @@ AWOOF: {
     "75000.01": {
       name: "475GB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 72750.00,
       price: calculateSellingPrice(72750.00),
       networkCode: "02"
@@ -614,7 +614,7 @@ AWOOF: {
     "150000.03": {
       name: "1TB",
       validity: "30 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 145500.00,
       price: calculateSellingPrice(145500.00),
       networkCode: "02"
@@ -623,7 +623,7 @@ AWOOF: {
     "1500.02": {
       name: "6GB",
       validity: "7 Days",
-        category: "DIRECT",
+      category: "DIRECT",
       apiCost: 1455.00,
       price: calculateSellingPrice(1455.00),
       networkCode: "02"
@@ -881,6 +881,4 @@ AWOOF: {
     }
   }
 };
-
 export default dataPlans;
-    
