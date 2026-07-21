@@ -981,9 +981,6 @@ AWOOF: {
         networkCode: "04"
       }
     }
-  }
 };
 
 export default dataPlans;
-
-      
