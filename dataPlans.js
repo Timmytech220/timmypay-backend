@@ -9,10 +9,9 @@ function calculateSellingPrice(apiCost) {
   return apiCost + 1000;
 }
 
-
-MTN: {
-SME: {
-
+const dataPlans = {
+    "MTN": {
+        "SME": {
   "500": {
     name: "500 MB Weekly",
     validity: "7 Days",
