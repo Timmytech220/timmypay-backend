@@ -1024,7 +1024,8 @@ AWOOF: {
       apiCost: 27900.00,
       price: calculateSellingPrice(27900.00),
       networkCode: "04"
-        },
+        }
+  }
   }
 };
 export default dataPlans;
