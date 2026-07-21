@@ -837,5 +837,5 @@ const dataPlans = {
     }
   }
 };
-module.exports = dataPlans;
+export default dataPlans;
         
