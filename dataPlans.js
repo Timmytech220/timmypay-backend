@@ -879,6 +879,7 @@ AWOOF: {
       price: calculateSellingPrice(58199.91),
       networkCode: "03"
     }
+    }
   },
   "9MOBILE": {
     DIRECT: {
@@ -969,6 +970,7 @@ AWOOF: {
       apiCost: 17205.00,
       price: calculateSellingPrice(17205.00),
       networkCode: "04"
+      }
     }
   }
   // Make sure 9MOBILE, and dataPlans close with correct braces:
