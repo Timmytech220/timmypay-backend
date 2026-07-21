@@ -234,11 +234,9 @@ const dataPlans = {
       networkCode: "1"
     }
   }
-};
 
 
-
-const dataPlans = {
+    
   GLO: {
     "200": {
       name: "200 MB - 14 days (SME)",
@@ -446,7 +444,148 @@ const dataPlans = {
       networkCode: "2"
     }
   }
-};
+
+
+
+
+  AIRTEL: {
+    "499.91": {
+      name: "1GB - 1 day (Awoof Data)",
+      apiCost: 484.91,
+      networkCode: "3"
+    },
+    "599.91": {
+      name: "1.5GB - 2 days (Awoof Data)",
+      apiCost: 581.91,
+      networkCode: "3"
+    },
+    "749.91": {
+      name: "2GB - 2 days (Awoof Data)",
+      apiCost: 727.41,
+      networkCode: "3"
+    },
+    "999.91": {
+      name: "3GB - 2 days (Awoof Data)",
+      apiCost: 969.91,
+      networkCode: "3"
+    },
+    "1499.91": {
+      name: "5GB - 2 days (Awoof Data)",
+      apiCost: 1454.91,
+      networkCode: "3"
+    },
+    "499.92": {
+      name: "500MB - 7 days (Direct Data)",
+      apiCost: 484.92,
+      networkCode: "3"
+    },
+    "799.91": {
+      name: "1GB - 7 days (Direct Data)",
+      apiCost: 775.91,
+      networkCode: "3"
+    },
+    "999.92": {
+      name: "1.5GB - 7 days (Direct Data)",
+      apiCost: 969.92,
+      networkCode: "3"
+    },
+    "1499.92": {
+      name: "3.5GB - 7 days (Direct Data)",
+      apiCost: 1454.92,
+      networkCode: "3"
+    },
+    "2499.91": {
+      name: "6GB - 7 days (Direct Data)",
+      apiCost: 2424.91,
+      networkCode: "3"
+    },
+    "2999.91": {
+      name: "10GB - 7 days (Direct Data)",
+      apiCost: 2909.91,
+      networkCode: "3"
+    },
+    "4999.91": {
+      name: "18GB - 7 days (Direct Data)",
+      apiCost: 4849.91,
+      networkCode: "3"
+    },
+    "1499.93": {
+      name: "2GB - 30 days (Direct Data)",
+      apiCost: 1454.93,
+      networkCode: "3"
+    },
+    "1999.91": {
+      name: "3GB - 30 days (Direct Data)",
+      apiCost: 1939.91,
+      networkCode: "3"
+    },
+    "2499.92": {
+      name: "4GB - 30 days (Direct Data)",
+      apiCost: 2424.92,
+      networkCode: "3"
+    },
+    "2999.92": {
+      name: "8GB - 30 days (Direct Data)",
+      apiCost: 2909.92,
+      networkCode: "3"
+    },
+    "3999.91": {
+      name: "10GB - 30 days (Direct Data)",
+      apiCost: 3879.91,
+      networkCode: "3"
+    },
+    "4999.92": {
+      name: "13GB - 30 days (Direct Data)",
+      apiCost: 4849.92,
+      networkCode: "3"
+    },
+    "5999.91": {
+      name: "18GB - 30 days (Direct Data)",
+      apiCost: 5819.91,
+      networkCode: "3"
+    },
+    "7999.91": {
+      name: "25GB - 30 days (Direct Data)",
+      apiCost: 7759.91,
+      networkCode: "3"
+    },
+    "9999.91": {
+      name: "35GB - 30 days (Direct Data)",
+      apiCost: 9699.91,
+      networkCode: "3"
+    },
+    "14999.91": {
+      name: "60GB - 30 days (Direct Data)",
+      apiCost: 14549.91,
+      networkCode: "3"
+    },
+    "19999.91": {
+      name: "100GB - 30 days (Direct Data)",
+      apiCost: 19399.91,
+      networkCode: "3"
+    },
+    "29999.91": {
+      name: "160GB - 30 days (Direct Data)",
+      apiCost: 29099.91,
+      networkCode: "3"
+    },
+    "39999.91": {
+      name: "210GB - 30 days (Direct Data)",
+      apiCost: 38799.91,
+      networkCode: "3"
+    },
+    "49999.91": {
+      name: "300GB - 90 days (Direct Data)",
+      apiCost: 48499.91,
+      networkCode: "3"
+    },
+    "59999.91": {
+      name: "350GB - 90 days (Direct Data)",
+      apiCost: 58199.91,
+      networkCode: "3"
+    }
+  }
+
       
 module.exports = dataPlans;
     
