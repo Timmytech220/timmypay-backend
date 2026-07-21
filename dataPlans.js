@@ -236,5 +236,217 @@ const dataPlans = {
   }
 };
 
+
+
+const dataPlans = {
+  GLO: {
+    "200": {
+      name: "200 MB - 14 days (SME)",
+      apiCost: 94.00,
+      networkCode: "2"
+    },
+    "500": {
+      name: "500 MB - 7 days (SME)",
+      apiCost: 230.00,
+      networkCode: "2"
+    },
+    "1000.11": {
+      name: "1 GB - 3 days (SME)",
+      apiCost: 322.00,
+      networkCode: "2"
+    },
+    "3000.11": {
+      name: "3 GB - 3 days (SME)",
+      apiCost: 968.00,
+      networkCode: "2"
+    },
+    "5000.11": {
+      name: "5 GB - 3 days (SME)",
+      apiCost: 1614.00,
+      networkCode: "2"
+    },
+    "1000.12": {
+      name: "1 GB - 7 days (SME)",
+      apiCost: 357.00,
+      networkCode: "2"
+    },
+    "3000.12": {
+      name: "3 GB - 7 days (SME)",
+      apiCost: 1072.00,
+      networkCode: "2"
+    },
+    "5000.12": {
+      name: "5 GB - 7 days (SME)",
+      apiCost: 1787.00,
+      networkCode: "2"
+    },
+    "1000.21": {
+      name: "1 GB - 14 days Night Plan (SME)",
+      apiCost: 357.00,
+      networkCode: "2"
+    },
+    "3000.21": {
+      name: "3 GB - 14 days Night Plan (SME)",
+      apiCost: 1072.00,
+      networkCode: "2"
+    },
+    "5000.21": {
+      name: "5 GB - 14 days Night Plan (SME)",
+      apiCost: 1787.00,
+      networkCode: "2"
+    },
+    "10000.21": {
+      name: "10 GB - 14 days Night Plan (SME)",
+      apiCost: 3574.00,
+      networkCode: "2"
+    },
+    "1000": {
+      name: "1 GB - 30 days (SME)",
+      apiCost: 461.00,
+      networkCode: "2"
+    },
+    "2000": {
+      name: "2 GB - 30 days (SME)",
+      apiCost: 922.00,
+      networkCode: "2"
+    },
+    "3000": {
+      name: "3 GB - 30 days (SME)",
+      apiCost: 1383.00,
+      networkCode: "2"
+    },
+    "5000": {
+      name: "5 GB - 30 days (SME)",
+      apiCost: 2306.00,
+      networkCode: "2"
+    },
+    "10000": {
+      name: "10 GB - 30 days (SME)",
+      apiCost: 4612.00,
+      networkCode: "2"
+    },
+    "100.01": {
+      name: "125MB - 1 day (Awoof Data)",
+      apiCost: 97.00,
+      networkCode: "2"
+    },
+    "200.01": {
+      name: "260MB - 2 day (Awoof Data)",
+      apiCost: 194.00,
+      networkCode: "2"
+    },
+    "500.01": {
+      name: "1.5GB - 14 days (Direct Data)",
+      apiCost: 485.00,
+      networkCode: "2"
+    },
+    "1000.01": {
+      name: "2.6GB - 30 days (Direct Data)",
+      apiCost: 970.00,
+      networkCode: "2"
+    },
+    "1500.01": {
+      name: "5GB - 30 days (Direct Data)",
+      apiCost: 1455.00,
+      networkCode: "2"
+    },
+    "2000.01": {
+      name: "6.15GB - 30 days (Direct Data)",
+      apiCost: 1940.00,
+      networkCode: "2"
+    },
+    "2500.01": {
+      name: "7.5GB - 30 days (Direct Data)",
+      apiCost: 2425.00,
+      networkCode: "2"
+    },
+    "3000.01": {
+      name: "10GB - 30 days (Direct Data)",
+      apiCost: 2910.00,
+      networkCode: "2"
+    },
+    "4000.01": {
+      name: "12.5GB - 30 days (Direct Data)",
+      apiCost: 3880.00,
+      networkCode: "2"
+    },
+    "5000.01": {
+      name: "16GB - 30 days (Direct Data)",
+      apiCost: 4850.00,
+      networkCode: "2"
+    },
+    "8000.01": {
+      name: "28GB - 30 days (Direct Data)",
+      apiCost: 7760.00,
+      networkCode: "2"
+    },
+    "10000.01": {
+      name: "38GB - 30 days (Direct Data)",
+      apiCost: 9700.00,
+      networkCode: "2"
+    },
+    "15000.01": {
+      name: "64GB - 30 days (Direct Data)",
+      apiCost: 14550.00,
+      networkCode: "2"
+    },
+    "20000.01": {
+      name: "107GB - 30 days (Direct Data)",
+      apiCost: 19400.00,
+      networkCode: "2"
+    },
+    "500.02": {
+      name: "2GB - 1 day (Awoof Data)",
+      apiCost: 485.00,
+      networkCode: "2"
+    },
+    "1500.02": {
+      name: "6GB - 7 days (Direct Data)",
+      apiCost: 1455.00,
+      networkCode: "2"
+    },
+    "500.03": {
+      name: "2.5GB - Weekend Plan - [Sat & Sun] (Awoof Data)",
+      apiCost: 485.00,
+      networkCode: "2"
+    },
+    "200.02": {
+      name: "875MB - Weekend Plan [Sun] (Awoof Data)",
+      apiCost: 194.00,
+      networkCode: "2"
+    },
+    "30000.01": {
+      name: "165GB - 30 days (Direct Data)",
+      apiCost: 29100.00,
+      networkCode: "2"
+    },
+    "36000.01": {
+      name: "220GB - 30 days (Direct Data)",
+      apiCost: 38800.00,
+      networkCode: "2"
+    },
+    "50000.01": {
+      name: "320GB - 30 days (Direct Data)",
+      apiCost: 48500.00,
+      networkCode: "2"
+    },
+    "60000.01": {
+      name: "380GB - 30 days (Direct Data)",
+      apiCost: 58200.00,
+      networkCode: "2"
+    },
+    "75000.01": {
+      name: "475GB - 30 days (Direct Data)",
+      apiCost: 72750.00,
+      networkCode: "2"
+    },
+    "150000.03": {
+      name: "950GB - 30 days (Direct Data)",
+      apiCost: 145500.00,
+      networkCode: "2"
+    }
+  }
+};
+      
 module.exports = dataPlans;
     
