@@ -2,6 +2,7 @@ import express from "express";
 import axios from "axios";
 import cors from "cors";
 import admin from "firebase-admin";
+import dataPlans from "./dataPlans.js";
 
 const app = express();
 
