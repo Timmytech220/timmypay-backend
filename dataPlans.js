@@ -575,173 +575,271 @@ AWOOF: {
 
     
   
-  AIRTEL: {
+
+    AIRTEL: {
+
+  AWOOF: {
+
     "499.91": {
-      name: "1GB - 1 day (Awoof Data)",
+      name: "1GB",
+      validity: "1 Day",
+      category: "AWOOF",
       apiCost: 484.91,
       price: calculateSellingPrice(484.91),
       networkCode: "03"
     },
+
     "599.91": {
-      name: "1.5GB - 2 days (Awoof Data)",
+      name: "1.5GB",
+      validity: "2 Days",
+      category: "AWOOF",
       apiCost: 581.91,
       price: calculateSellingPrice(581.91),
       networkCode: "03"
     },
+
     "749.91": {
-      name: "2GB - 2 days (Awoof Data)",
+      name: "2GB",
+      validity: "2 Days",
+      category: "AWOOF",
       apiCost: 727.41,
       price: calculateSellingPrice(727.41),
       networkCode: "03"
     },
+
     "999.91": {
-      name: "3GB - 2 days (Awoof Data)",
+      name: "3GB",
+      validity: "2 Days",
+      category: "AWOOF",
       apiCost: 969.91,
       price: calculateSellingPrice(969.91),
       networkCode: "03"
     },
+
     "1499.91": {
-      name: "5GB - 2 days (Awoof Data)",
+      name: "5GB",
+      validity: "2 Days",
+      category: "AWOOF",
       apiCost: 1454.91,
       price: calculateSellingPrice(1454.91),
       networkCode: "03"
-    },
+    }
+
+  },
+
+  DIRECT: {
+
+    // Weekly
+
     "499.92": {
-      name: "500MB - 7 days (Direct Data)",
+      name: "500MB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 484.92,
       price: calculateSellingPrice(484.92),
       networkCode: "03"
     },
+
     "799.91": {
-      name: "1GB - 7 days (Direct Data)",
+      name: "1GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 775.91,
       price: calculateSellingPrice(775.91),
       networkCode: "03"
     },
+
     "999.92": {
-      name: "1.5GB - 7 days (Direct Data)",
+      name: "1.5GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 969.92,
       price: calculateSellingPrice(969.92),
       networkCode: "03"
     },
+
     "1499.92": {
-      name: "3.5GB - 7 days (Direct Data)",
+      name: "3.5GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 1454.92,
       price: calculateSellingPrice(1454.92),
       networkCode: "03"
     },
+
     "2499.91": {
-      name: "6GB - 7 days (Direct Data)",
+      name: "6GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 2424.91,
       price: calculateSellingPrice(2424.91),
       networkCode: "03"
     },
+
     "2999.91": {
-      name: "10GB - 7 days (Direct Data)",
+      name: "10GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 2909.91,
       price: calculateSellingPrice(2909.91),
       networkCode: "03"
     },
+
     "4999.91": {
-      name: "18GB - 7 days (Direct Data)",
+      name: "18GB",
+      validity: "7 Days",
+      category: "DIRECT",
       apiCost: 4849.91,
       price: calculateSellingPrice(4849.91),
       networkCode: "03"
     },
+
+    // Monthly
+
     "1499.93": {
-      name: "2GB - 30 days (Direct Data)",
+      name: "2GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 1454.93,
       price: calculateSellingPrice(1454.93),
       networkCode: "03"
     },
+
     "1999.91": {
-      name: "3GB - 30 days (Direct Data)",
+      name: "3GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 1939.91,
       price: calculateSellingPrice(1939.91),
       networkCode: "03"
     },
+
     "2499.92": {
-      name: "4GB - 30 days (Direct Data)",
+      name: "4GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 2424.92,
       price: calculateSellingPrice(2424.92),
       networkCode: "03"
     },
+
     "2999.92": {
-      name: "8GB - 30 days (Direct Data)",
+      name: "8GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 2909.92,
       price: calculateSellingPrice(2909.92),
       networkCode: "03"
     },
+
     "3999.91": {
-      name: "10GB - 30 days (Direct Data)",
+      name: "10GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 3879.91,
       price: calculateSellingPrice(3879.91),
       networkCode: "03"
     },
+
     "4999.92": {
-      name: "13GB - 30 days (Direct Data)",
+      name: "13GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 4849.92,
       price: calculateSellingPrice(4849.92),
       networkCode: "03"
     },
+
     "5999.91": {
-      name: "18GB - 30 days (Direct Data)",
+      name: "18GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 5819.91,
       price: calculateSellingPrice(5819.91),
       networkCode: "03"
     },
+
     "7999.91": {
-      name: "25GB - 30 days (Direct Data)",
+      name: "25GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 7759.91,
       price: calculateSellingPrice(7759.91),
       networkCode: "03"
     },
+
     "9999.91": {
-      name: "35GB - 30 days (Direct Data)",
+      name: "35GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 9699.91,
       price: calculateSellingPrice(9699.91),
       networkCode: "03"
     },
+
     "14999.91": {
-      name: "60GB - 30 days (Direct Data)",
+      name: "60GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 14549.91,
       price: calculateSellingPrice(14549.91),
       networkCode: "03"
     },
+
     "19999.91": {
-      name: "100GB - 30 days (Direct Data)",
+      name: "100GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 19399.91,
       price: calculateSellingPrice(19399.91),
       networkCode: "03"
     },
+
     "29999.91": {
-      name: "160GB - 30 days (Direct Data)",
+      name: "160GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 29099.91,
       price: calculateSellingPrice(29099.91),
       networkCode: "03"
     },
+
     "39999.91": {
-      name: "210GB - 30 days (Direct Data)",
+      name: "210GB",
+      validity: "30 Days",
+      category: "DIRECT",
       apiCost: 38799.91,
       price: calculateSellingPrice(38799.91),
       networkCode: "03"
     },
+
     "49999.91": {
-      name: "300GB - 90 days (Direct Data)",
+      name: "300GB",
+      validity: "90 Days",
+      category: "DIRECT",
       apiCost: 48499.91,
-      price: calculateSellingPrice(4849.91),
+      price: calculateSellingPrice(48499.91),
       networkCode: "03"
     },
+
     "59999.91": {
-      name: "350GB - 90 days (Direct Data)",
+      name: "350GB",
+      validity: "90 Days",
+      category: "DIRECT",
       apiCost: 58199.91,
       price: calculateSellingPrice(58199.91),
       networkCode: "03"
-      }
-    },
+    }
+
+  },
 
 
 
+
+
+
+    
+      
     "9MOBILE": {
     "50": {
       name: "50 MB - 30 days (SME)",
