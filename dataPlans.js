@@ -10,8 +10,8 @@ function calculateSellingPrice(apiCost) {
 }
 
 const dataPlans = {
-    "MTN": {
-        "SME": {
+    MTN: {
+    SME: {
   "500": {
     name: "500 MB Weekly",
     validity: "7 Days",
