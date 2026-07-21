@@ -1006,25 +1006,8 @@ AWOOF: {
       apiCost: 17205.00,
       price: calculateSellingPrice(17205.00),
       networkCode: "04"
-    },
+    
 
-    "20000.01": {
-      name: "26.5GB",
-      validity: "30 Days",
-      category: "DIRECT",
-      apiCost: 18600.00,
-      price: calculateSellingPrice(18600.00),
-      networkCode: "04"
-    },
-
-    "30000.01": {
-      name: "39GB",
-      validity: "60 Days",
-      category: "DIRECT",
-      apiCost: 27900.00,
-      price: calculateSellingPrice(27900.00),
-      networkCode: "04"
-        }
   }
   }
 };
