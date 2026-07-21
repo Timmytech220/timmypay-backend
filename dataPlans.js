@@ -972,15 +972,17 @@ AWOOF: {
         price: calculateSellingPrice(11160.00),
         networkCode: "04"
       },
-      "18500.01": {
-        name: "24.3GB",
-        validity: "30 Days",
-        category: "DIRECT",
-        apiCost: 17205.00,
-        price: calculateSellingPrice(17205.00),
-        networkCode: "04"
-      }
+          18500.01: {
+      name: "24.3GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 17205.00,
+      price: calculateSellingPrice(17205.00),
+      networkCode: "04"
     }
+  }
+  // Make sure 9MOBILE, and dataPlans close with correct braces:
 };
 
 export default dataPlans;
+    
