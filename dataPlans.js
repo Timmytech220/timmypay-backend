@@ -1026,7 +1026,6 @@ AWOOF: {
       networkCode: "04"
     }
 
-  }
 }
 
 };
