@@ -250,33 +250,71 @@ app.get(["/get-account", "/get-account/"], async (req, res) => {
     }
 });
 
+
 // Buy Airtime Route
 app.post("/buy-airtime", async (req, res) => {
     const uid = req.headers['x-user-uid'];
     const { phone, amount, networkCode } = req.body;
-    
-    if (!uid) return res.status(400).json({ success: false, error: "Missing UID" });
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
 
     try {
         const userRef = db.collection("users").doc(uid);
         const userDoc = await userRef.get();
-        
-        if (!userDoc.exists) return res.status(404).json({ success: false, error: "User not found" });
-        
+
+        if (!userDoc.exists) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
         const balance = userDoc.data().balance || 0;
 
-        if (balance < amount) return res.status(400).json({ success: false, error: "Insufficient balance" });
+        if (balance < amount) {
+            return res.status(400).json({
+                success: false,
+                error: "Insufficient balance"
+            });
+        }
 
+        // Buy Airtime
         const result = await buyAirtime(phone, amount, networkCode);
 
+        // Deduct wallet balance
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
         });
 
-        res.json({ success: true, data: result });
+        // Save transaction history
+        await db.collection("transactions").add({
+            uid: uid,
+            type: "Airtime Purchase",
+            network: networkCode,
+            phone: phone,
+            amount: amount,
+            status: "Successful",
+            transactionId: "TXN" + Date.now(),
+            createdAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+
+        res.json({
+            success: true,
+            data: result
+        });
+
     } catch (error) {
         console.error("AIRTIME ERROR:", error);
-        res.status(500).json({ success: false, error: "Airtime purchase failed" });
+
+        res.status(500).json({
+            success: false,
+            error: "Airtime purchase failed"
+        });
     }
 });
 
