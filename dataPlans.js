@@ -998,4 +998,302 @@ AIRTEL: {
   }
 
 },
-  
+
+  NINEMOBILE: {
+
+  SME: {
+
+    "50": {
+      name: "50MB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 25.00,
+      price: calculateSellingPrice(25.00),
+      networkCode: "04"
+    },
+
+    "100": {
+      name: "100MB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 51.00,
+      price: calculateSellingPrice(51.00),
+      networkCode: "04"
+    },
+
+    "300": {
+      name: "300MB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 153.00,
+      price: calculateSellingPrice(153.00),
+      networkCode: "04"
+    },
+
+    "500": {
+      name: "500MB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 246.00,
+      price: calculateSellingPrice(246.00),
+      networkCode: "04"
+    },
+
+    "1000": {
+      name: "1GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 492.00,
+      price: calculateSellingPrice(492.00),
+      networkCode: "04"
+    },
+
+    "2000": {
+      name: "2GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 984.00,
+      price: calculateSellingPrice(984.00),
+      networkCode: "04"
+    },
+
+    "3000": {
+      name: "3GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 1476.00,
+      price: calculateSellingPrice(1476.00),
+      networkCode: "04"
+    },
+
+    "4000": {
+      name: "4GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 1968.00,
+      price: calculateSellingPrice(1968.00),
+      networkCode: "04"
+    },
+
+    "5000": {
+      name: "5GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 2460.00,
+      price: calculateSellingPrice(2460.00),
+      networkCode: "04"
+    },
+
+    "10000": {
+      name: "10GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 4920.00,
+      price: calculateSellingPrice(4920.00),
+      networkCode: "04"
+    },
+
+    "15000": {
+      name: "15GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 7380.00,
+      price: calculateSellingPrice(7380.00),
+      networkCode: "04"
+    },
+
+    "20000": {
+      name: "20GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 9840.00,
+      price: calculateSellingPrice(9840.00),
+      networkCode: "04"
+    },
+
+    "25000": {
+      name: "25GB",
+      validity: "30 Days",
+      category: "SME",
+      apiCost: 12300.00,
+      price: calculateSellingPrice(12300.00),
+      networkCode: "04"
+    }
+
+  },
+
+  AWOOF: {
+
+    "100.01": {
+      name: "100MB",
+      validity: "1 Day",
+      category: "AWOOF",
+      apiCost: 93.00,
+      price: calculateSellingPrice(93.00),
+      networkCode: "04"
+    },
+
+    "150.01": {
+      name: "180MB",
+      validity: "1 Day",
+      category: "AWOOF",
+      apiCost: 139.50,
+      price: calculateSellingPrice(139.50),
+      networkCode: "04"
+    },
+
+    "200.01": {
+      name: "250MB",
+      validity: "1 Day",
+      category: "AWOOF",
+      apiCost: 186.00,
+      price: calculateSellingPrice(186.00),
+      networkCode: "04"
+    },
+
+    "350.01": {
+      name: "450MB",
+      validity: "1 Day",
+      category: "AWOOF",
+      apiCost: 325.50,
+      price: calculateSellingPrice(325.50),
+      networkCode: "04"
+    },
+
+    "500.01": {
+      name: "650MB",
+      validity: "3 Days",
+      category: "AWOOF",
+      apiCost: 465.00,
+      price: calculateSellingPrice(465.00),
+      networkCode: "04"
+    }
+
+  },
+
+  DIRECT: {
+
+    "600.01": {
+      name: "650MB",
+      validity: "14 Days",
+      category: "DIRECT",
+      apiCost: 558.00,
+      price: calculateSellingPrice(558.00),
+      networkCode: "04"
+    },
+
+    "1000.01": {
+      name: "1.1GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 930.00,
+      price: calculateSellingPrice(930.00),
+      networkCode: "04"
+    },
+
+    "1200.01": {
+      name: "1.4GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 1116.00,
+      price: calculateSellingPrice(1116.00),
+      networkCode: "04"
+    },
+
+    "1500.01": {
+      name: "1.75GB",
+      validity: "7 Days",
+      category: "DIRECT",
+      apiCost: 1395.00,
+      price: calculateSellingPrice(1395.00),
+      networkCode: "04"
+    },
+
+    "2000.01": {
+      name: "2.44GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 1860.00,
+      price: calculateSellingPrice(1860.00),
+      networkCode: "04"
+    },
+
+    "2500.01": {
+      name: "3.17GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 2325.00,
+      price: calculateSellingPrice(2325.00),
+      networkCode: "04"
+    },
+
+    "3000.01": {
+      name: "3.91GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 2790.00,
+      price: calculateSellingPrice(2790.00),
+      networkCode: "04"
+    },
+
+    "4000.01": {
+      name: "5.10GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 3720.00,
+      price: calculateSellingPrice(3720.00),
+      networkCode: "04"
+    },
+
+    "5000.01": {
+      name: "6.5GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 4650.00,
+      price: calculateSellingPrice(4650.00),
+      networkCode: "04"
+    },
+
+    "12000.01": {
+      name: "16GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 11160.00,
+      price: calculateSellingPrice(11160.00),
+      networkCode: "04"
+    },
+
+    "18500.01": {
+      name: "24.3GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 17205.00,
+      price: calculateSellingPrice(17205.00),
+      networkCode: "04"
+    },
+
+    "20000.01": {
+      name: "26.5GB",
+      validity: "30 Days",
+      category: "DIRECT",
+      apiCost: 18600.00,
+      price: calculateSellingPrice(18600.00),
+      networkCode: "04"
+    },
+
+    "30000.01": {
+      name: "39GB",
+      validity: "60 Days",
+      category: "DIRECT",
+      apiCost: 27900.00,
+      price: calculateSellingPrice(27900.00),
+      networkCode: "04"
+    }
+
+  }
+
+}
+
+};
+
+export default dataPlans;
