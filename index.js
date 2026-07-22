@@ -170,30 +170,39 @@ app.post("/buy-data", async (req, res) => {
                 error: "Insufficient balance"
             });
         }
+        
 
         const result = await buyData(
-            phone,
-            plan.networkCode,
-            planId
-        );
+    phone,
+    plan.networkCode,
+    planId
+);
 
-        await userRef.update({
-            balance: admin.firestore.FieldValue.increment(-plan.price)
-        });
+// Deduct wallet balance
+await userRef.update({
+    balance: admin.firestore.FieldValue.increment(-plan.price)
+});
 
-        res.json({
-            success: true,
-            charged: plan.price,
-            apiCost: plan.apiCost,
-            data: result
-        });
+// Save transaction history
+await db.collection("transactions").add({
+    uid: uid,
+    type: "Data Purchase",
+    network: network,
+    category: type,
+    plan: plan.name,
+    phone: phone,
+    amount: plan.price,
+    status: "Successful",
+    transactionId: "TXN" + Date.now(),
+    createdAt: admin.firestore.FieldValue.serverTimestamp()
+});
 
-    } catch (error) {
-        console.error("BUY DATA ERROR:", error);
-        res.status(500).json({
-            success: false,
-            error: "Data purchase failed"
-        });
+res.json({
+    success: true,
+    charged: plan.price,
+    apiCost: plan.apiCost,
+    data: result
+});
     }
 });
 
