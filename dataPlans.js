@@ -1,4 +1,4 @@
-fucion calculateSellingPrice(apiCost) {
+function calculateSellingPrice(apiCost) {
   if (apiCost < 500) return apiCost + 50;
   if (apiCost < 1000) return apiCost + 70;
   if (apiCost < 2000) return apiCost + 100;
