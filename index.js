@@ -358,6 +358,8 @@ app.get("/get-balance", async (req, res) => {
 app.get("/transactions", async (req, res) => {
     const uid = req.headers["x-user-uid"];
 
+    console.log("Received UID:", uid);
+
     if (!uid) {
         return res.status(400).json({
             success: false,
@@ -366,10 +368,14 @@ app.get("/transactions", async (req, res) => {
     }
 
     try {
+        console.log("Running Firestore query...");
+
         const snapshot = await db.collection("transactions")
             .where("uid", "==", uid)
             .orderBy("createdAt", "desc")
             .get();
+
+        console.log("Documents found:", snapshot.size);
 
         const transactions = [];
 
@@ -380,17 +386,19 @@ app.get("/transactions", async (req, res) => {
             });
         });
 
+        console.log("Transactions:", transactions);
+
         res.json({
             success: true,
             transactions
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("TRANSACTION ERROR:", error);
 
         res.status(500).json({
             success: false,
-            error: "Could not load transactions"
+            error: error.message
         });
     }
 });
