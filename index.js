@@ -133,7 +133,7 @@ app.get("/data-plans", (req, res) => {
 // ================================
 app.post("/buy-data", async (req, res) => {
     const uid = req.headers["x-user-uid"];
-    const { phone, network, planId } = req.body;
+    const { phone, network, type, planId } = req.body;
 
     if (!uid) {
         return res.status(400).json({
@@ -143,7 +143,7 @@ app.post("/buy-data", async (req, res) => {
     }
 
     try {
-        const plan = dataPlans[network]?.[planId];
+        const plan = dataPlans[network]?.[type]?.[planId];
 
         if (!plan) {
             return res.status(400).json({
