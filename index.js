@@ -119,6 +119,24 @@ async function buyData(phone, networkCode, planId) {
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
+// ================================
+// GET DATA PLANS
+// ================================
+app.get("/data-plans", (req, res) => {
+    try {
+        res.json({
+            success: true,
+            plans: dataPlans
+        });
+    } catch (error) {
+        console.error("DATA PLANS ERROR:", error);
+        res.status(500).json({
+            success: false,
+            error: "Could not load data plans"
+        });
+    }
+});
+
 
 // ================================
 // BUY DATA ROUTE
