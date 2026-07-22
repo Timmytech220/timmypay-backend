@@ -318,6 +318,7 @@ app.post("/buy-airtime", async (req, res) => {
     }
 });
 
+
 // Get Balance Route
 app.get("/get-balance", async (req, res) => {
     const uid = req.headers['x-user-uid'];
@@ -329,6 +330,50 @@ app.get("/get-balance", async (req, res) => {
         res.json({ success: true, balance: balance });
     } catch (error) {
         res.status(500).json({ success: false, error: "Could not fetch balance" });
+    }
+});
+
+
+// ================================
+// GET TRANSACTION HISTORY
+// ================================
+app.get("/transactions", async (req, res) => {
+    const uid = req.headers["x-user-uid"];
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    try {
+        const snapshot = await db.collection("transactions")
+            .where("uid", "==", uid)
+            .orderBy("createdAt", "desc")
+            .get();
+
+        const transactions = [];
+
+        snapshot.forEach(doc => {
+            transactions.push({
+                id: doc.id,
+                ...doc.data()
+            });
+        });
+
+        res.json({
+            success: true,
+            transactions
+        });
+
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Could not load transactions"
+        });
     }
 });
 
