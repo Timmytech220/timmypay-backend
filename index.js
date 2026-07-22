@@ -119,14 +119,6 @@ async function buyData(phone, networkCode, planId) {
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
-// ================================
-// GET ALL DATA PLANS
-// ================================
-app.get("/data-plans", (req, res) => {
-    res.json(dataPlans);
-});
-
-
 
 // ================================
 // BUY DATA ROUTE
@@ -170,43 +162,49 @@ app.post("/buy-data", async (req, res) => {
                 error: "Insufficient balance"
             });
         }
-        
 
+        // Buy data from API
         const result = await buyData(
-    phone,
-    plan.networkCode,
-    planId
-);
+            phone,
+            plan.networkCode,
+            planId
+        );
 
-// Deduct wallet balance
-await userRef.update({
-    balance: admin.firestore.FieldValue.increment(-plan.price)
-});
+        // Deduct wallet balance
+        await userRef.update({
+            balance: admin.firestore.FieldValue.increment(-plan.price)
+        });
 
-// Save transaction history
-await db.collection("transactions").add({
-    uid: uid,
-    type: "Data Purchase",
-    network: network,
-    category: type,
-    plan: plan.name,
-    phone: phone,
-    amount: plan.price,
-    status: "Successful",
-    transactionId: "TXN" + Date.now(),
-    createdAt: admin.firestore.FieldValue.serverTimestamp()
-});
+        // Save transaction history
+        await db.collection("transactions").add({
+            uid: uid,
+            type: "Data Purchase",
+            network: network,
+            category: type,
+            plan: plan.name,
+            phone: phone,
+            amount: plan.price,
+            status: "Successful",
+            transactionId: "TXN" + Date.now(),
+            createdAt: admin.firestore.FieldValue.serverTimestamp()
+        });
 
-res.json({
-    success: true,
-    charged: plan.price,
-    apiCost: plan.apiCost,
-    data: result
-});
+        res.json({
+            success: true,
+            charged: plan.price,
+            apiCost: plan.apiCost,
+            data: result
+        });
+
+    } catch (error) {
+        console.error("BUY DATA ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            error: "Data purchase failed"
+        });
     }
 });
-
-
 
 
 // Get Account Route
