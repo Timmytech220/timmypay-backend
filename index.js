@@ -117,10 +117,9 @@ async function buyData(phone, networkCode, planId) {
 
 
 
+
 // --- ROUTES ---
-app.get("/", (req, res) => {
-    res.send("TimmyPay Backend Version TEST 123");
-});
+app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
 // ================================
 // GET DATA PLANS
@@ -372,11 +371,11 @@ app.get("/transactions", async (req, res) => {
 
     try {
         console.log("Running Firestore query...");
-
+        
         const snapshot = await db.collection("transactions")
-            .where("uid", "==", uid)
-            .orderBy("createdAt", "desc")
-            .get();
+    .where("uid", "==", uid)
+    .get();
+
 
         console.log("Documents found:", snapshot.size);
 
