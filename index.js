@@ -374,8 +374,8 @@ app.get("/transactions", async (req, res) => {
         
         const snapshot = await db.collection("transactions")
     .where("uid", "==", uid)
+    .orderBy("createdAt", "desc")
     .get();
-
 
         console.log("Documents found:", snapshot.size);
 
