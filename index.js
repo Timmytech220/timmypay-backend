@@ -199,6 +199,109 @@ app.post("/verify-meter", async (req, res) => {
 
 });
 
+
+
+// ================================
+// BUY ELECTRICITY
+// ================================
+app.post("/buy-electricity", async (req, res) => {
+
+    const uid = req.headers["x-user-uid"];
+
+    const {
+        companyCode,
+        meterType,
+        meterNo,
+        amount,
+        phone
+    } = req.body;
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    try {
+
+        const userRef = db.collection("users").doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
+        const balance = userDoc.data().balance || 0;
+
+        if (balance < Number(amount)) {
+            return res.status(400).json({
+                success: false,
+                error: "Insufficient balance"
+            });
+        }
+
+        const result = await buyElectricity(
+            companyCode,
+            meterType,
+            meterNo,
+            amount,
+            phone
+        );
+
+        if (
+            result.statuscode !== "100" &&
+            result.status !== "ORDER_RECEIVED"
+        ) {
+            return res.status(400).json({
+                success: false,
+                error: result.status || "Electricity purchase failed"
+            });
+        }
+
+        await userRef.update({
+            balance: admin.firestore.FieldValue.increment(-Number(amount))
+        });
+
+        await db.collection("transactions").add({
+            uid,
+            type: "Electricity Purchase",
+            meterNo,
+            companyCode,
+            meterType,
+            phone,
+            amount: Number(amount),
+            status: "Successful",
+            token: result.metertoken || "",
+            orderId: result.orderid || "",
+            transactionId: "TXN" + Date.now(),
+            createdAt: admin.firestore.FieldValue.serverTimestamp()
+        });
+
+        res.json({
+            success: true,
+            token: result.metertoken,
+            orderId: result.orderid,
+            data: result
+        });
+
+    } catch (error) {
+
+        console.error("BUY ELECTRICITY ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            error: "Electricity purchase failed"
+        });
+
+    }
+
+});
+
+
 // ================================
 // BUY DATA ROUTE
 // ================================
