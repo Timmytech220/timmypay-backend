@@ -149,7 +149,31 @@ app.get("/data-plans", (req, res) => {
     }
 });
 
+// ================================
+// BUY ELECTRICITY
+// ================================
+app.post("/buy-electricity", async (req, res) => {
 
+    const uid = req.headers["x-user-uid"];
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    const {
+        companyCode,
+        meterType,
+        meterNo,
+        amount,
+        phone
+    } = req.body;
+
+    try {
+
+        const userRef = db.collection(
 // ================================
 // VERIFY ELECTRICITY METER
 // ================================
@@ -176,31 +200,28 @@ app.post("/verify-meter", async (req, res) => {
 
             return res.json({
                 success: true,
-// ================================
-// BUY ELECTRICITY
-// ================================
-app.post("/buy-electricity", async (req, res) => {
+                customerName: result.customer_name
+            });
 
-    const uid = req.headers["x-user-uid"];
+        }
 
-    if (!uid) {
-        return res.status(400).json({
+        return res.json({
             success: false,
-            error: "Missing UID"
+            error: "Invalid meter number"
         });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Meter verification failed"
+        });
+
     }
 
-    const {
-        companyCode,
-        meterType,
-        meterNo,
-        amount,
-        phone
-    } = req.body;
-
-    try {
-
-        const userRef = db.collection("users").doc(uid);
+});"users").doc(uid);
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
