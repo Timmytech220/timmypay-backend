@@ -237,6 +237,58 @@ app.post("/buy-data", async (req, res) => {
 });
 
 
+
+// ================================
+// VERIFY ELECTRICITY METER
+// ================================
+async function verifyMeter(companyCode, meterType, meterNo) {
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIVerifyElectricityV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&ElectricCompany=${companyCode}` +
+        `&MeterNo=${meterNo}` +
+        `&MeterType=${meterType}`;
+
+    const response = await axios.get(url);
+
+    return response.data;
+}
+
+
+
+// ================================
+// BUY ELECTRICITY
+// ================================
+async function buyElectricity(
+    companyCode,
+    meterType,
+    meterNo,
+    amount,
+    phone
+){
+
+    const requestId = Date.now().toString();
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIElectricityV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&ElectricCompany=${companyCode}` +
+        `&MeterType=${meterType}` +
+        `&MeterNo=${meterNo}` +
+        `&Amount=${amount}` +
+        `&PhoneNo=${phone}` +
+        `&RequestID=${requestId}`;
+
+    const response = await axios.get(url);
+
+    return response.data;
+    }
+
+
+
 // Get Account Route
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
