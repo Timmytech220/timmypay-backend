@@ -151,6 +151,55 @@ app.get("/data-plans", (req, res) => {
 
 
 // ================================
+// VERIFY ELECTRICITY METER
+// ================================
+app.post("/verify-meter", async (req, res) => {
+
+    const {
+        companyCode,
+        meterType,
+        meterNo
+    } = req.body;
+
+    try {
+
+        const result = await verifyMeter(
+            companyCode,
+            meterType,
+            meterNo
+        );
+
+        if (
+            result.customer_name &&
+            result.customer_name !== "INVALID_METERNO"
+        ) {
+
+            return res.json({
+                success: true,
+                customerName: result.customer_name
+            });
+
+        }
+
+        return res.json({
+            success: false,
+            error: "Invalid meter number"
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Meter verification failed"
+        });
+
+    }
+
+});
+
+// ================================
 // BUY DATA ROUTE
 // ================================
 app.post("/buy-data", async (req, res) => {
