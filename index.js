@@ -529,12 +529,13 @@ app.post("/buy-electricity", async (req, res) => {
     }
 
     const {
-        companyCode,
-        meterType,
-        meterNo,
-        amount,
-        phone
-    } = req.body;
+    companyCode,
+    meterType,
+    meterNo,
+    apiCost,
+    amount,
+    phone
+} = req.body;
 
     try {
 
