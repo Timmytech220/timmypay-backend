@@ -438,7 +438,6 @@ app.post("/buy-data", async (req, res) => {
 });
 
 
-
 // ================================
 // VERIFY ELECTRICITY METER
 // ================================
@@ -452,9 +451,14 @@ async function verifyMeter(companyCode, meterType, meterNo) {
         `&MeterNo=${meterNo}` +
         `&MeterType=${meterType}`;
 
+    console.log("VERIFY URL:", url);
+
     const response = await axios.get(url);
 
+    console.log("VERIFY RESPONSE:", response.data);
+
     return response.data;
+
 }
 
 
@@ -468,7 +472,7 @@ async function buyElectricity(
     meterNo,
     amount,
     phone
-){
+) {
 
     const requestId = Date.now().toString();
 
@@ -483,11 +487,15 @@ async function buyElectricity(
         `&PhoneNo=${phone}` +
         `&RequestID=${requestId}`;
 
+    console.log("BUY ELECTRICITY URL:", url);
+
     const response = await axios.get(url);
 
-    return response.data;
-    }
+    console.log("BUY ELECTRICITY RESPONSE:", response.data);
 
+    return response.data;
+
+}
 
 
 // Get Account Route
