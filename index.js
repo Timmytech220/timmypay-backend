@@ -558,13 +558,39 @@ app.post("/buy-electricity", async (req, res) => {
             });
         }
 
-        const result = await buyElectricity(
-            companyCode,
-            meterType,
-            meterNo,
-            amount,
-            phone
-        );
+
+
+        let result;
+
+// ==================================
+// MOCK MODE
+// ==================================
+if (meterNo === "12345678901") {
+
+    result = {
+
+        statuscode: "100",
+
+        status: "ORDER_RECEIVED",
+
+        metertoken: "1234-5678-9012-3456",
+
+        orderid: "MOCK" + Date.now()
+
+    };
+
+} else {
+
+    // REAL API
+    result = await buyElectricity(
+        companyCode,
+        meterType,
+        meterNo,
+        apiCost,
+        phone
+    );
+
+}
 
         // ==========================
         // DEBUG
