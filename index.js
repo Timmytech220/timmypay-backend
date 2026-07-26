@@ -606,9 +606,8 @@ if (meterNo === "12345678901") {
             });
 
         }
-
-        const apiCost = Number((amount * 0.995).toFixed(2));
         const profit = Number((amount - apiCost).toFixed(2));
+
 
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
