@@ -150,6 +150,60 @@ app.get("/data-plans", (req, res) => {
 });
 
 
+// MOCK CABLE TV SMARTCARD VERIFICATION
+
+app.post("/verify-smartcard", async (req, res) => {
+
+    try {
+
+        const { cable, smartcard } = req.body;
+
+
+        if (!cable || !smartcard) {
+
+            return res.json({
+                status: "failed",
+                message: "Missing cable provider or smartcard number"
+            });
+
+        }
+
+
+        // Temporary fake response for testing
+
+        res.json({
+
+            status: "success",
+
+            customer_name: "TIMMY CUSTOMER",
+
+            cable_provider: cable.toUpperCase(),
+
+            smartcard: smartcard,
+
+            current_package: "GOtv Max",
+
+            message: "Smartcard verified successfully"
+
+        });
+
+
+    } catch(error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            status:"failed",
+            message:"Server error"
+
+        });
+
+    }
+
+});
+
+
 
 
 
