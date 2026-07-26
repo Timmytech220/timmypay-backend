@@ -214,6 +214,65 @@ app.post("/verify-meter", async (req, res) => {
 
 
 // ================================
+// VERIFY CABLE SMARTCARD
+// ================================
+app.post("/verify-cable", async (req, res) => {
+
+    const {
+        cableTV,
+        smartCardNo
+    } = req.body;
+
+    console.log("VERIFY CABLE REQUEST:", {
+        cableTV,
+        smartCardNo
+    });
+
+    try {
+
+        const result = await verifyCable(
+            cableTV,
+            smartCardNo
+        );
+
+        console.log("VERIFY CABLE RESPONSE:", result);
+
+        if (
+            result.customer_name &&
+            result.customer_name !== "INVALID_SMARTCARD"
+        ) {
+
+            return res.json({
+                success: true,
+                customerName: result.customer_name
+            });
+
+        }
+
+        return res.json({
+            success: false,
+            error: result.status || "Invalid Smart Card Number"
+        });
+
+    } catch (error) {
+
+        console.error(
+            "VERIFY CABLE ERROR:",
+            error.response?.data || error.message
+        );
+
+        return res.status(500).json({
+            success: false,
+            error: "Cable verification failed"
+        });
+
+    }
+
+});
+
+
+
+// ================================
 // BUY ELECTRICITY
 // ================================
 app.post("/buy-electricity", async (req, res) => {
