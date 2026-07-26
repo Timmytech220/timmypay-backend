@@ -151,6 +151,9 @@ app.get("/data-plans", (req, res) => {
 
 
 
+
+
+
 // ================================
 // VERIFY ELECTRICITY METER
 // ================================
@@ -164,11 +167,19 @@ app.post("/verify-meter", async (req, res) => {
 
     try {
 
+        console.log("VERIFY REQUEST:", {
+            companyCode,
+            meterType,
+            meterNo
+        });
+
         const result = await verifyMeter(
             companyCode,
             meterType,
             meterNo
         );
+
+        console.log("VERIFY RESPONSE:", result);
 
         if (
             result.customer_name &&
@@ -189,7 +200,7 @@ app.post("/verify-meter", async (req, res) => {
 
     } catch (error) {
 
-        console.error(error);
+        console.error("VERIFY ERROR:", error.response?.data || error.message);
 
         return res.status(500).json({
             success: false,
@@ -199,7 +210,6 @@ app.post("/verify-meter", async (req, res) => {
     }
 
 });
-
 
 
 
