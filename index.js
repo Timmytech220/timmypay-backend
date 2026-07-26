@@ -418,8 +418,6 @@ app.post("/buy-cable", async (req, res) => {
         // PROFIT
         // ============================
 
-        const apiCost = Number((amount * 0.99).toFixed(2));
-
         const profit = Number((amount - apiCost).toFixed(2));
 
         // ============================
