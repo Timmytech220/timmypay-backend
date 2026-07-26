@@ -512,6 +512,8 @@ app.post("/buy-cable", async (req, res) => {
 
 
 
+
+
 // ================================
 // BUY ELECTRICITY
 // ================================
@@ -527,13 +529,13 @@ app.post("/buy-electricity", async (req, res) => {
     }
 
     const {
-    companyCode,
-    meterType,
-    meterNo,
-    apiCost,
-    amount,
-    phone
-} = req.body;
+        companyCode,
+        meterType,
+        meterNo,
+        apiCost,
+        amount,
+        phone
+    } = req.body;
 
     try {
 
@@ -556,43 +558,42 @@ app.post("/buy-electricity", async (req, res) => {
             });
         }
 
-
-
         let result;
 
-// ==================================
-// MOCK MODE
-// ==================================
-if (meterNo === "12345678901") {
+        // ==================================
+        // MOCK MODE
+        // ==================================
+        if (meterNo === "12345678901") {
 
-    result = {
+            result = {
 
-        statuscode: "100",
+                statuscode: "100",
 
-        status: "ORDER_RECEIVED",
+                status: "ORDER_RECEIVED",
 
-        metertoken: "1234-5678-9012-3456",
+                metertoken: "1234-5678-9012-3456",
 
-        orderid: "MOCK" + Date.now()
+                orderid: "MOCK" + Date.now(),
 
-    };
+                customer_name: "TEST CUSTOMER"
 
-} else {
+            };
 
-    // REAL API
-    result = await buyElectricity(
-        companyCode,
-        meterType,
-        meterNo,
-        apiCost,
-        phone
-    );
+        } else {
 
-}
+            // ==========================
+            // REAL API
+            // ==========================
+            result = await buyElectricity(
+                companyCode,
+                meterType,
+                meterNo,
+                apiCost,
+                phone
+            );
 
-        // ==========================
-        // DEBUG
-        // ==========================
+        }
+
         console.log("BUY RESULT:", result);
 
         if (
@@ -601,17 +602,37 @@ if (meterNo === "12345678901") {
         ) {
 
             return res.json({
+
                 success: false,
-                error: result.status || "Purchase failed"
+
+                error:
+                result.status || "Purchase failed"
+
             });
 
         }
-        const profit = Number((amount - apiCost).toFixed(2));
 
+        // ==========================
+        // PROFIT
+        // ==========================
+
+        const profit =
+            Number((amount - apiCost).toFixed(2));
+
+        // ==========================
+        // DEDUCT WALLET
+        // ==========================
 
         await userRef.update({
-            balance: admin.firestore.FieldValue.increment(-amount)
+
+            balance:
+            admin.firestore.FieldValue.increment(-amount)
+
         });
+
+        // ==========================
+        // SAVE TRANSACTION
+        // ==========================
 
         await db.collection("transactions").add({
 
@@ -633,15 +654,26 @@ if (meterNo === "12345678901") {
 
             profit,
 
-            token: result.metertoken || "",
+            customerName:
+            result.customer_name || "",
 
-            orderId: result.orderid || "",
+            token:
+            result.metertoken || "",
 
-            status: "Successful",
+            orderId:
+            result.orderid || "",
 
-            transactionId: "TXN" + Date.now(),
+            mock:
+            meterNo === "12345678901",
 
-            createdAt: admin.firestore.FieldValue.serverTimestamp()
+            status:
+            "Successful",
+
+            transactionId:
+            "TXN" + Date.now(),
+
+            createdAt:
+            admin.firestore.FieldValue.serverTimestamp()
 
         });
 
@@ -649,9 +681,17 @@ if (meterNo === "12345678901") {
 
             success: true,
 
-            token: result.metertoken || "",
+            mock:
+            meterNo === "12345678901",
 
-            orderId: result.orderid || "",
+            token:
+            result.metertoken || "",
+
+            orderId:
+            result.orderid || "",
+
+            customerName:
+            result.customer_name || "",
 
             amount,
 
@@ -661,7 +701,9 @@ if (meterNo === "12345678901") {
 
         });
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error("BUY ELECTRICITY ERROR:", error);
 
@@ -669,15 +711,14 @@ if (meterNo === "12345678901") {
 
             success: false,
 
-            error: "Electricity purchase failed"
+            error:
+            error.message || "Electricity purchase failed"
 
         });
 
     }
 
 });
-
-
 
 
 // ================================
