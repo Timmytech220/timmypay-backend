@@ -272,6 +272,141 @@ app.post("/verify-cable", async (req, res) => {
 
 
 
+
+// ================================
+// BUY CABLE TV
+// ================================
+app.post("/buy-cable", async (req, res) => {
+
+    const uid = req.headers["x-user-uid"];
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    const {
+        cableTV,
+        packageCode,
+        smartCardNo,
+        amount,
+        phone
+    } = req.body;
+
+    try {
+
+        const userRef = db.collection("users").doc(uid);
+        const userDoc = await userRef.get();
+
+        if (!userDoc.exists) {
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
+            });
+        }
+
+        const balance = userDoc.data().balance || 0;
+
+        if (balance < amount) {
+            return res.status(400).json({
+                success: false,
+                error: "Insufficient balance"
+            });
+        }
+
+        const result = await buyCable(
+            cableTV,
+            packageCode,
+            smartCardNo,
+            amount,
+            phone
+        );
+
+        console.log("BUY CABLE RESULT:", result);
+
+        if (
+            result.statuscode !== "100" &&
+            result.status !== "ORDER_RECEIVED"
+        ) {
+
+            return res.json({
+                success: false,
+                error: result.status || "Subscription failed"
+            });
+
+        }
+
+        const apiCost = Number((amount * 0.99).toFixed(2));
+        const profit = Number((amount - apiCost).toFixed(2));
+
+        await userRef.update({
+            balance: admin.firestore.FieldValue.increment(-amount)
+        });
+
+        await db.collection("transactions").add({
+
+            uid,
+
+            type: "Cable TV Subscription",
+
+            cableTV,
+
+            packageCode,
+
+            smartCardNo,
+
+            phone,
+
+            amount,
+
+            apiCost,
+
+            profit,
+
+            orderId: result.orderid || "",
+
+            status: "Successful",
+
+            transactionId: "TXN" + Date.now(),
+
+            createdAt: admin.firestore.FieldValue.serverTimestamp()
+
+        });
+
+        return res.json({
+
+            success: true,
+
+            orderId: result.orderid || "",
+
+            amount,
+
+            apiCost,
+
+            profit
+
+        });
+
+    } catch (error) {
+
+        console.error("BUY CABLE ERROR:", error);
+
+        return res.status(500).json({
+
+            success: false,
+
+            error: "Cable subscription failed"
+
+        });
+
+    }
+
+});
+
+
+
 // ================================
 // BUY ELECTRICITY
 // ================================
