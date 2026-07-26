@@ -416,6 +416,7 @@ app.post("/verify-cable", async (req, res) => {
 
 
 
+
 // ================================
 // BUY CABLE TV
 // ================================
@@ -459,13 +460,37 @@ app.post("/buy-cable", async (req, res) => {
             });
         }
 
-        const result = await buyCable(
-            cableTV,
-            packageCode,
-            smartCardNo,
-            amount,
-            phone
-        );
+        let result;
+
+        // ==================================
+        // MOCK MODE
+        // ==================================
+        if (smartCardNo === "1234567890") {
+
+            result = {
+
+                statuscode: "100",
+
+                status: "ORDER_RECEIVED",
+
+                orderid: "MOCK" + Date.now(),
+
+                customer_name: "TIMMY CUSTOMER"
+
+            };
+
+        } else {
+
+            // REAL API
+            result = await buyCable(
+                cableTV,
+                packageCode,
+                smartCardNo,
+                amount,
+                phone
+            );
+
+        }
 
         console.log("BUY CABLE RESULT:", result);
 
@@ -481,12 +506,28 @@ app.post("/buy-cable", async (req, res) => {
 
         }
 
+        // ============================
+        // PROFIT
+        // ============================
+
         const apiCost = Number((amount * 0.99).toFixed(2));
+
         const profit = Number((amount - apiCost).toFixed(2));
 
+        // ============================
+        // DEDUCT WALLET
+        // ============================
+
         await userRef.update({
-            balance: admin.firestore.FieldValue.increment(-amount)
+
+            balance:
+            admin.firestore.FieldValue.increment(-amount)
+
         });
+
+        // ============================
+        // SAVE TRANSACTION
+        // ============================
 
         await db.collection("transactions").add({
 
@@ -510,11 +551,16 @@ app.post("/buy-cable", async (req, res) => {
 
             orderId: result.orderid || "",
 
+            customerName:
+            result.customer_name || "",
+
             status: "Successful",
 
-            transactionId: "TXN" + Date.now(),
+            transactionId:
+            "TXN" + Date.now(),
 
-            createdAt: admin.firestore.FieldValue.serverTimestamp()
+            createdAt:
+            admin.firestore.FieldValue.serverTimestamp()
 
         });
 
@@ -522,17 +568,26 @@ app.post("/buy-cable", async (req, res) => {
 
             success: true,
 
-            orderId: result.orderid || "",
+            mock:
+            smartCardNo === "1234567890",
+
+            orderId:
+            result.orderid || "",
 
             amount,
 
             apiCost,
 
-            profit
+            profit,
+
+            customerName:
+            result.customer_name || ""
 
         });
 
-    } catch (error) {
+    }
+
+    catch (error) {
 
         console.error("BUY CABLE ERROR:", error);
 
@@ -540,7 +595,8 @@ app.post("/buy-cable", async (req, res) => {
 
             success: false,
 
-            error: "Cable subscription failed"
+            error:
+            error.message || "Cable subscription failed"
 
         });
 
