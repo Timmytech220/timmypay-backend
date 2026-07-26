@@ -502,6 +502,65 @@ async function buyElectricity(
 }
 
 
+
+// ================================
+// VERIFY CABLE TV SMARTCARD
+// ================================
+async function verifyCable(cableTV, smartCardNo) {
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIVerifyCableTVV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&CableTV=${cableTV}` +
+        `&SmartCardNo=${smartCardNo}`;
+
+    console.log("VERIFY CABLE URL:", url);
+
+    const response = await axios.get(url);
+
+    console.log("VERIFY CABLE RESPONSE:", response.data);
+
+    return response.data;
+
+}
+
+
+
+// ================================
+// BUY CABLE TV SUBSCRIPTION
+// ================================
+async function buyCable(
+    cableTV,
+    packageCode,
+    smartCardNo,
+    amount,
+    phone
+){
+
+    const requestId = Date.now().toString();
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APICableTVV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&CableTV=${cableTV}` +
+        `&Package=${packageCode}` +
+        `&SmartCardNo=${smartCardNo}` +
+        `&PhoneNo=${phone}` +
+        `&RequestID=${requestId}`;
+
+    console.log("BUY CABLE URL:", url);
+
+    const response = await axios.get(url);
+
+    console.log("BUY CABLE RESPONSE:", response.data);
+
+    return response.data;
+
+}
+
+
 // Get Account Route
 app.get(["/get-account", "/get-account/"], async (req, res) => {
     const uid = req.headers['x-user-uid'];
