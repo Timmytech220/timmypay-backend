@@ -264,6 +264,11 @@ app.post("/buy-electricity", async (req, res) => {
             phone
         );
 
+        // ==========================
+        // DEBUG
+        // ==========================
+        console.log("BUY RESULT:", result);
+
         if (
             result.statuscode !== "100" &&
             result.status !== "ORDER_RECEIVED"
@@ -346,7 +351,6 @@ app.post("/buy-electricity", async (req, res) => {
     }
 
 });
-
 
 
 
