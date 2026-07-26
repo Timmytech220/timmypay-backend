@@ -207,7 +207,94 @@ amount: req.body.amount,
 
 
 
+// ======================================
+// BUY CABLE TV
+// ======================================
 
+app.post("/buy-cable", async (req, res) => {
+
+    try {
+
+        const {
+
+            uid,
+
+            cable,
+
+            smartcard,
+
+            packageCode,
+
+            packageName,
+
+            amount
+
+        } = req.body;
+
+
+        // --------------------------
+        // MOCK MODE
+        // --------------------------
+
+        if (smartcard === "1234567890") {
+
+            return res.json({
+
+                success: true,
+
+                mock: true,
+
+                transactionId:
+                "TMP" + Date.now(),
+
+                customer_name:
+                "TIMMY CUSTOMER",
+
+                package: packageName,
+
+                amount: amount,
+
+                provider: cable,
+
+                message:
+                "Mock Cable Purchase Successful"
+
+            });
+
+        }
+
+
+        // --------------------------
+        // REAL API
+        // (We'll complete this next)
+        // --------------------------
+
+        res.json({
+
+            success: false,
+
+            message:
+            "Real API connection coming next."
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+
+            success: false,
+
+            message: error.message
+
+        });
+
+    }
+
+});
 
 
 // ================================
