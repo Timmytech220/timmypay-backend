@@ -149,31 +149,8 @@ app.get("/data-plans", (req, res) => {
     }
 });
 
-// ================================
-// BUY ELECTRICITY
-// ================================
-app.post("/buy-electricity", async (req, res) => {
 
-    const uid = req.headers["x-user-uid"];
 
-    if (!uid) {
-        return res.status(400).json({
-            success: false,
-            error: "Missing UID"
-        });
-    }
-
-    const {
-        companyCode,
-        meterType,
-        meterNo,
-        amount,
-        phone
-    } = req.body;
-
-    try {
-
-        const userRef = db.collection(
 // ================================
 // VERIFY ELECTRICITY METER
 // ================================
@@ -214,14 +191,43 @@ app.post("/verify-meter", async (req, res) => {
 
         console.error(error);
 
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             error: "Meter verification failed"
         });
 
     }
 
-});"users").doc(uid);
+});
+
+
+
+
+// ================================
+// BUY ELECTRICITY
+// ================================
+app.post("/buy-electricity", async (req, res) => {
+
+    const uid = req.headers["x-user-uid"];
+
+    if (!uid) {
+        return res.status(400).json({
+            success: false,
+            error: "Missing UID"
+        });
+    }
+
+    const {
+        companyCode,
+        meterType,
+        meterNo,
+        amount,
+        phone
+    } = req.body;
+
+    try {
+
+        const userRef = db.collection("users").doc(uid);
         const userDoc = await userRef.get();
 
         if (!userDoc.exists) {
@@ -240,7 +246,6 @@ app.post("/verify-meter", async (req, res) => {
             });
         }
 
-        // Buy electricity from Clubkonnect
         const result = await buyElectricity(
             companyCode,
             meterType,
@@ -253,22 +258,21 @@ app.post("/verify-meter", async (req, res) => {
             result.statuscode !== "100" &&
             result.status !== "ORDER_RECEIVED"
         ) {
+
             return res.json({
                 success: false,
                 error: result.status || "Purchase failed"
             });
+
         }
 
-        // Calculate API Cost & Profit
         const apiCost = Number((amount * 0.995).toFixed(2));
         const profit = Number((amount - apiCost).toFixed(2));
 
-        // Deduct wallet balance
         await userRef.update({
             balance: admin.firestore.FieldValue.increment(-amount)
         });
 
-        // Save transaction
         await db.collection("transactions").add({
 
             uid,
@@ -301,7 +305,7 @@ app.post("/verify-meter", async (req, res) => {
 
         });
 
-        res.json({
+        return res.json({
 
             success: true,
 
@@ -321,7 +325,7 @@ app.post("/verify-meter", async (req, res) => {
 
         console.error("BUY ELECTRICITY ERROR:", error);
 
-        res.status(500).json({
+        return res.status(500).json({
 
             success: false,
 
@@ -331,28 +335,9 @@ app.post("/verify-meter", async (req, res) => {
 
     }
 
-});                customerName: result.customer_name
-            });
-
-        }
-
-        return res.json({
-            success: false,
-            error: "Invalid meter number"
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Meter verification failed"
-        });
-
-    }
-
 });
+
+
 
 
 
