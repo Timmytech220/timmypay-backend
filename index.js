@@ -181,7 +181,9 @@ app.post("/verify-smartcard", async (req, res) => {
 
             smartcard: smartcard,
 
-            current_package: "GOtv Max",
+            current_package: req.body.packageName,
+
+amount: req.body.amount,
 
             message: "Smartcard verified successfully"
 
