@@ -1,8 +1,8 @@
 import express from "express";
 import axios from "axios";
 import cors from "cors";
-import admin from "firebase-admin";
 import dataPlans from "./dataPlans.js";
+import { admin, db } from "./config/firebase.js";
 
 const app = express();
 
@@ -18,29 +18,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// --- FIREBASE SETUP ---
-let db;
 
-try {
-    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-
-        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-
-        console.log("Firebase Project ID:", serviceAccount.project_id);
-
-        admin.initializeApp({
-            credential: admin.credential.cert(serviceAccount)
-        });
-
-        db = admin.firestore();
-
-        console.log("Firebase Admin Initialized ✅");
-    } else {
-        console.error("FIREBASE_SERVICE_ACCOUNT environment variable not found.");
-    }
-} catch (err) {
-    console.error("Firebase Init Error:", err.message);
-}
 
 // --- MONNIFY HELPER FUNCTIONS ---
 async function getMonnifyToken() {
