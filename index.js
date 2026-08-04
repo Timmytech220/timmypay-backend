@@ -631,6 +631,7 @@ app.post("/buy-electricity", async (req, res) => {
 // BUY DATA ROUTE
 // ================================
 app.post("/buy-data", async (req, res) => {
+
     const uid = req.headers["x-user-uid"];
     const { phone, network, type, planId } = req.body;
 
@@ -642,6 +643,11 @@ app.post("/buy-data", async (req, res) => {
     }
 
     try {
+
+        // ============================
+        // GET SELECTED PLAN
+        // ============================
+
         const plan = dataPlans[network]?.[type]?.[planId];
 
         if (!plan) {
@@ -650,6 +656,85 @@ app.post("/buy-data", async (req, res) => {
                 error: "Invalid data plan"
             });
         }
+
+        // ============================
+        // LOAD PROFIT SETTINGS
+        // ============================
+
+        const settingsDoc = await db
+            .collection("settings")
+            .doc("profitSettings")
+            .get();
+
+        const settings = settingsDoc.exists
+            ? settingsDoc.data()
+            : {};
+
+        // Normalize values
+        const networkName = String(network).toUpperCase();
+        const category = String(type).toUpperCase();
+
+        let profit = 0;
+
+        // ============================
+        // MTN
+        // ============================
+
+        if (networkName === "MTN" && category === "SME")
+            profit = Number(settings.mtnSmeProfit || 0);
+
+        else if (networkName === "MTN" && category === "AWOOF")
+            profit = Number(settings.mtnAwoofProfit || 0);
+
+        else if (networkName === "MTN" && category === "DIRECT")
+            profit = Number(settings.mtnDirectProfit || 0);
+
+        // ============================
+        // AIRTEL
+        // ============================
+
+        else if (networkName === "AIRTEL" && category === "AWOOF")
+            profit = Number(settings.airtelAwoofProfit || 0);
+
+        else if (networkName === "AIRTEL" && category === "DIRECT")
+            profit = Number(settings.airtelDirectProfit || 0);
+
+        // ============================
+        // GLO
+        // ============================
+
+        else if (networkName === "GLO" && category === "SME")
+            profit = Number(settings.gloSmeProfit || 0);
+
+        else if (networkName === "GLO" && category === "AWOOF")
+            profit = Number(settings.gloAwoofProfit || 0);
+
+        else if (networkName === "GLO" && category === "DIRECT")
+            profit = Number(settings.gloDirectProfit || 0);
+
+        // ============================
+        // 9MOBILE
+        // ============================
+
+        else if (networkName === "9MOBILE" && category === "SME")
+            profit = Number(settings.ninemobileSmeProfit || 0);
+
+        else if (networkName === "9MOBILE" && category === "AWOOF")
+            profit = Number(settings.ninemobileAwoofProfit || 0);
+
+        else if (networkName === "9MOBILE" && category === "DIRECT")
+            profit = Number(settings.ninemobileDirectProfit || 0);
+
+        // ============================
+        // CALCULATE SELLING PRICE
+        // ============================
+
+        const apiCost = Number(plan.apiCost || 0);
+        const sellingPrice = apiCost + profit;
+
+        // ============================
+        // GET USER
+        // ============================
 
         const userRef = db.collection("users").doc(uid);
         const userDoc = await userRef.get();
@@ -661,57 +746,98 @@ app.post("/buy-data", async (req, res) => {
             });
         }
 
-        const balance = userDoc.data().balance || 0;
+        const balance = Number(userDoc.data().balance || 0);
 
-        if (balance < plan.price) {
+        if (balance < sellingPrice) {
             return res.status(400).json({
                 success: false,
                 error: "Insufficient balance"
             });
         }
 
-        // Buy data from API
+        // ============================
+        // BUY DATA FROM PROVIDER
+        // ============================
+
         const result = await buyData(
             phone,
             plan.networkCode,
             planId
         );
 
-        // Deduct wallet balance
+        // ============================
+        // DEDUCT WALLET
+        // ============================
+
         await userRef.update({
-            balance: admin.firestore.FieldValue.increment(-plan.price)
+            balance: admin.firestore.FieldValue.increment(-sellingPrice)
         });
 
-        // Save transaction history
+        // ============================
+        // SAVE TRANSACTION
+        // ============================
+
         await db.collection("transactions").add({
-            uid: uid,
+
+            uid,
+
             type: "Data Purchase",
-            network: network,
+
+            network,
+
             category: type,
+
             plan: plan.name,
-            phone: phone,
-            amount: plan.price,
+
+            phone,
+
+            amount: sellingPrice,
+
+            apiCost,
+
+            profit,
+
             status: "Successful",
+
             transactionId: "TXN" + Date.now(),
+
             createdAt: admin.firestore.FieldValue.serverTimestamp()
+
         });
+
+        // ============================
+        // RESPONSE
+        // ============================
 
         res.json({
+
             success: true,
-            charged: plan.price,
-            apiCost: plan.apiCost,
+
+            charged: sellingPrice,
+
+            apiCost,
+
+            profit,
+
             data: result
+
         });
 
     } catch (error) {
+
         console.error("BUY DATA ERROR:", error);
 
         res.status(500).json({
+
             success: false,
-            error: "Data purchase failed"
+
+            error: error.message || "Data purchase failed"
+
         });
+
     }
-});
+
+}); 
 
 
 
