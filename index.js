@@ -7,11 +7,20 @@ import {
     getMonnifyToken,
     reserveAccount
 } from "./services/monnify.js";
+
+import {
+    buyAirtime,
+    buyData,
+    verifyMeter,
+    buyElectricity,
+    verifyCable,
+    buyCable
+} from "./providers/clubkonnect.js";
 const app = express();
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
-const NELLOBYTE_BASE_URL = 'https://www.nellobytesystems.com'; 
+
 
 // Added x-user-uid to allowedHeaders to prevent blocking
 app.use(cors({ 
@@ -21,58 +30,6 @@ app.use(cors({
 }));
 app.use(express.json());
 
-
-
-
-
-// --- NELLOBYTESYSTEMS HELPER FUNCTION ---
-async function buyAirtime(phone, amount, networkCode) {
-    const networkMap = {
-        "MTN": "01",
-        "GLO": "02",
-        "T2MOBILE": "03",
-        "AIRTEL": "04"
-    };
-
-    const normalizedNetwork = networkCode.toUpperCase();
-    const networkID = networkMap[normalizedNetwork];
-
-    if (!networkID) {
-        throw new Error(`Invalid network: ${networkCode}. Please use MTN, GLO, T2MOBILE, or AIRTEL.`);
-    }
-
-    const uniqueId = Date.now().toString();
-    const url = `${NELLOBYTE_BASE_URL}/APIAirtimeV1.asp?UserID=${process.env.CK_USERID}&APIKey=${process.env.CK_APIKEY}&MobileNetwork=${networkID}&Amount=${amount}&MobileNumber=${phone}&RequestID=${uniqueId}`;
-    
-    const response = await axios.get(url);
-    return response.data;
-}
-
-
-
-// ================================
-// NELLOBYTE DATA PURCHASE FUNCTION
-// ================================
-async function buyData(phone, networkCode, planId) {
-
-    // Generate a unique request ID
-    const requestId = Date.now().toString();
-
-    // Build Nellobytes URL
-    const url =
-        `${NELLOBYTE_BASE_URL}/APIDatabundleV1.asp` +
-        `?UserID=${process.env.CK_USERID}` +
-        `&APIKey=${process.env.CK_APIKEY}` +
-        `&MobileNetwork=${networkCode}` +
-        `&DataPlan=${planId}` +
-        `&MobileNumber=${phone}` +
-        `&RequestID=${requestId}`;
-
-    // Send request to Nellobytes
-    const response = await axios.get(url);
-
-    return response.data;
-}
 
 
 
@@ -757,123 +714,6 @@ app.post("/buy-data", async (req, res) => {
 });
 
 
-// ================================
-// VERIFY ELECTRICITY METER
-// ================================
-async function verifyMeter(companyCode, meterType, meterNo) {
-
-    const url =
-        `${NELLOBYTE_BASE_URL}/APIVerifyElectricityV1.asp` +
-        `?UserID=${process.env.CK_USERID}` +
-        `&APIKey=${process.env.CK_APIKEY}` +
-        `&ElectricCompany=${companyCode}` +
-        `&MeterNo=${meterNo}` +
-        `&MeterType=${meterType}`;
-
-    console.log("VERIFY URL:", url);
-
-    const response = await axios.get(url);
-
-    console.log("VERIFY RESPONSE:", response.data);
-
-    return response.data;
-
-}
-
-
-
-// ================================
-// BUY ELECTRICITY
-// ================================
-async function buyElectricity(
-    companyCode,
-    meterType,
-    meterNo,
-    amount,
-    phone
-) {
-
-    const requestId = Date.now().toString();
-
-    const url =
-        `${NELLOBYTE_BASE_URL}/APIElectricityV1.asp` +
-        `?UserID=${process.env.CK_USERID}` +
-        `&APIKey=${process.env.CK_APIKEY}` +
-        `&ElectricCompany=${companyCode}` +
-        `&MeterType=${meterType}` +
-        `&MeterNo=${meterNo}` +
-        `&Amount=${amount}` +
-        `&PhoneNo=${phone}` +
-        `&RequestID=${requestId}`;
-
-    console.log("BUY ELECTRICITY URL:", url);
-
-    const response = await axios.get(url);
-
-    console.log("BUY ELECTRICITY RESPONSE:", response.data);
-
-    return response.data;
-
-}
-
-
-
-// ================================
-// VERIFY CABLE TV SMARTCARD
-// ================================
-async function verifyCable(cableTV, smartCardNo) {
-
-    const url =
-        `${NELLOBYTE_BASE_URL}/APIVerifyCableTVV1.asp` +
-        `?UserID=${process.env.CK_USERID}` +
-        `&APIKey=${process.env.CK_APIKEY}` +
-        `&CableTV=${cableTV}` +
-        `&SmartCardNo=${smartCardNo}`;
-
-    console.log("VERIFY CABLE URL:", url);
-
-    const response = await axios.get(url);
-
-    console.log("VERIFY CABLE RESPONSE:", response.data);
-
-    return response.data;
-
-}
-
-
-
-// ================================
-// BUY CABLE TV SUBSCRIPTION
-// ================================
-async function buyCable(
-    cableTV,
-    packageCode,
-    smartCardNo,
-    amount,
-    phone
-){
-
-    const requestId = Date.now().toString();
-
-    const url =
-        `${NELLOBYTE_BASE_URL}/APICableTVV1.asp` +
-        `?UserID=${process.env.CK_USERID}` +
-        `&APIKey=${process.env.CK_APIKEY}` +
-        `&CableTV=${cableTV}` +
-        `&Package=${packageCode}` +
-        `&SmartCardNo=${smartCardNo}` +
-        `&PhoneNo=${phone}` +
-        `&RequestID=${requestId}`;
-
-    console.log("BUY CABLE URL:", url);
-
-    const response = await axios.get(url);
-
-    console.log("BUY CABLE RESPONSE:", response.data);
-
-    return response.data;
-
-}
 
 
 // Get Account Route
