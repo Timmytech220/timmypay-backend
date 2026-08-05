@@ -671,67 +671,14 @@ app.post("/buy-data", async (req, res) => {
             ? settingsDoc.data()
             : {};
 
-        // Normalize values
-        const networkName = String(network).toUpperCase();
-        const category = String(type).toUpperCase();
-
-        let profit = 0;
-
-        // ============================
-        // MTN
-        // ============================
-
-        if (networkName === "MTN" && category === "SME")
-            profit = Number(settings.mtnSmeProfit || 0);
-
-        else if (networkName === "MTN" && category === "AWOOF")
-            profit = Number(settings.mtnAwoofProfit || 0);
-
-        else if (networkName === "MTN" && category === "DIRECT")
-            profit = Number(settings.mtnDirectProfit || 0);
-
-        // ============================
-        // AIRTEL
-        // ============================
-
-        else if (networkName === "AIRTEL" && category === "AWOOF")
-            profit = Number(settings.airtelAwoofProfit || 0);
-
-        else if (networkName === "AIRTEL" && category === "DIRECT")
-            profit = Number(settings.airtelDirectProfit || 0);
-
-        // ============================
-        // GLO
-        // ============================
-
-        else if (networkName === "GLO" && category === "SME")
-            profit = Number(settings.gloSmeProfit || 0);
-
-        else if (networkName === "GLO" && category === "AWOOF")
-            profit = Number(settings.gloAwoofProfit || 0);
-
-        else if (networkName === "GLO" && category === "DIRECT")
-            profit = Number(settings.gloDirectProfit || 0);
-
         
-// ============================
-// 9MOBILE
-// ============================
-
-else if (networkName === "9MOBILE" && category === "SME")
-    profit = Number(settings.nineMobileSmeProfit || 0);
-
-else if (networkName === "9MOBILE" && category === "AWOOF")
-    profit = Number(settings.nineMobileAwoofProfit || 0);
-
-else if (networkName === "9MOBILE" && category === "DIRECT")
-    profit = Number(settings.nineMobileDirectProfit || 0);
+        
         // ============================
         // CALCULATE SELLING PRICE
         // ============================
 
-        const apiCost = Number(plan.apiCost || 0);
-        const sellingPrice = apiCost + profit;
+        
+ const profit = getProfit(settings, network, type);       
 
         // ============================
         // GET USER
