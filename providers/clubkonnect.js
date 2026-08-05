@@ -150,11 +150,104 @@ async function buyCable(
     return response.data;
 }
 
+// ================================
+// GET EDUCATION PACKAGES (JAMB + WAEC)
+// ================================
+async function getEducationPackages() {
+
+    const jambUrl =
+        `${NELLOBYTE_BASE_URL}/APIJAMBPackagesV2.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}`;
+
+
+    const waecUrl =
+        `${NELLOBYTE_BASE_URL}/APIWAECPackagesV2.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}`;
+
+
+    const jambResponse = await axios.get(jambUrl);
+
+    const waecResponse = await axios.get(waecUrl);
+
+
+    return {
+
+        jamb: jambResponse.data,
+
+        waec: waecResponse.data
+
+    };
+
+}
+
+
+// ================================
+// BUY EDUCATION PIN
+// ================================
+async function buyEducation(
+    examType,
+    phone
+){
+
+    const requestId = Date.now().toString();
+
+
+    let endpoint = "";
+
+
+    // JAMB
+    if(
+        examType === "utme-mock" ||
+        examType === "utme-no-mock" ||
+        examType === "de"
+    ){
+
+        endpoint = "APIJAMBV1.asp";
+
+    }
+
+    // WAEC
+    else if(
+        examType === "waecdirect"
+    ){
+
+        endpoint = "APIWAECV1.asp";
+
+    }
+
+    else{
+
+        throw new Error("Invalid education package");
+
+    }
+
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/${endpoint}` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&ExamType=${examType}` +
+        `&PhoneNo=${phone}` +
+        `&RequestID=${requestId}`;
+
+
+    const response = await axios.get(url);
+
+
+    return response.data;
+
+}
+
+
 export {
     buyAirtime,
     buyData,
     verifyMeter,
     buyElectricity,
     verifyCable,
-    buyCable
+    buyCable,
+    getEducationPackages,
+    buyEducation
 };
