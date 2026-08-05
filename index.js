@@ -628,6 +628,7 @@ app.post("/buy-electricity", async (req, res) => {
 });
 
 
+
 // ================================
 // BUY DATA ROUTE
 // ================================
@@ -671,14 +672,18 @@ app.post("/buy-data", async (req, res) => {
             ? settingsDoc.data()
             : {};
 
-        
-        
         // ============================
-        // CALCULATE SELLING PRICE
+        // GET PROFIT
         // ============================
 
-        
- const profit = getProfit(settings, network, type);       
+        const profit = getProfit(settings, network, type);
+
+        // ============================
+        // CALCULATE PRICE
+        // ============================
+
+        const apiCost = Number(plan.apiCost || 0);
+        const sellingPrice = apiCost + profit;
 
         // ============================
         // GET USER
@@ -785,7 +790,8 @@ app.post("/buy-data", async (req, res) => {
 
     }
 
-}); 
+});
+     
 
 
 
