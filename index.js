@@ -931,50 +931,34 @@ app.post("/buy-education", async (req, res) => {
         // ==========================
 
 
-        await db.collection("transactions")
-        .add({
+        await db.collection("transactions").add({
 
-            uid,
+    uid,
 
-            type:
-            "Education Purchase",
+    type:"Education Purchase",
 
-            examType,
+    network:"Education",
 
-            packageName,
+    category:"Exam PIN",
 
-            phone,
+    plan:packageName,
 
+    phone,
 
-            amount:
-            sellingPrice,
+    amount:sellingPrice,
 
+    apiCost:cost,
 
-            apiCost:
-            Number(apiCost),
+    profit,
 
+    status:"Successful",
 
-            profit:
-            educationProfit,
+    transactionId:"TXN" + Date.now(),
 
+    createdAt:
+    admin.firestore.FieldValue.serverTimestamp()
 
-            status:
-            "Successful",
-
-
-            transactionId:
-            "TXN" + Date.now(),
-
-
-            pin:
-            result.carddetails || "",
-
-
-            createdAt:
-            admin.firestore.FieldValue.serverTimestamp()
-
-        });
-
+});
 
 
 
