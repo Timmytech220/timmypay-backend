@@ -7,14 +7,15 @@ import {
     getMonnifyToken,
     reserveAccount
 } from "./services/monnify.js";
-
 import {
     buyAirtime,
     buyData,
     verifyMeter,
     buyElectricity,
     verifyCable,
-    buyCable
+    buyCable,
+    getEducationPackages,
+    buyEducation
 } from "./providers/clubkonnect.js";
 import { getProfit } from "./utils/profitHelper.js";
 const app = express();
