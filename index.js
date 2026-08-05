@@ -629,6 +629,7 @@ app.post("/buy-electricity", async (req, res) => {
 
 
 
+     
 // ================================
 // BUY DATA ROUTE
 // ================================
@@ -672,11 +673,19 @@ app.post("/buy-data", async (req, res) => {
             ? settingsDoc.data()
             : {};
 
+        console.log("=================================");
+        console.log("Profit Settings:", settings);
+        console.log("=================================");
+
         // ============================
         // GET PROFIT
         // ============================
 
         const profit = getProfit(settings, network, type);
+
+        console.log("Network:", network);
+        console.log("Type:", type);
+        console.log("Profit:", profit);
 
         // ============================
         // CALCULATE PRICE
@@ -684,6 +693,9 @@ app.post("/buy-data", async (req, res) => {
 
         const apiCost = Number(plan.apiCost || 0);
         const sellingPrice = apiCost + profit;
+
+        console.log("API Cost:", apiCost);
+        console.log("Selling Price:", sellingPrice);
 
         // ============================
         // GET USER
@@ -700,6 +712,8 @@ app.post("/buy-data", async (req, res) => {
         }
 
         const balance = Number(userDoc.data().balance || 0);
+
+        console.log("User Balance:", balance);
 
         if (balance < sellingPrice) {
             return res.status(400).json({
@@ -791,8 +805,6 @@ app.post("/buy-data", async (req, res) => {
     }
 
 });
-     
-
 
 
 
