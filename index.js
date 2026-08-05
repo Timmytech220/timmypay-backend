@@ -812,6 +812,11 @@ try {
     console.error("PROFIT WALLET ERROR:", err);
 
 }
+
+        const walletDoc = await db.collection("profit").doc("wallet").get();
+
+console.log("Wallet Exists:", walletDoc.exists);
+console.log("Wallet Data:", walletDoc.data());
         // ============================
         // SAVE TRANSACTION
         // ============================
