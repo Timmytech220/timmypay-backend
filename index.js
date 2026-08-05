@@ -933,27 +933,37 @@ app.post("/buy-education", async (req, res) => {
 
     uid,
 
-    type:"Education Purchase",
+    // Service information
+    type: "Education Purchase",
 
-    network:"Education",
+    network: "Education",
 
-    category:"Exam PIN",
+    category: "Exam PIN",
 
-    plan:packageName,
+    plan: packageName,
 
+    examType,
+
+    // Customer information
     phone,
 
-    amount:sellingPrice,
+    // Financial information
+    amount: sellingPrice,
 
-    apiCost:cost,
+    apiCost: cost,
 
     profit,
 
+    // PIN information from ClubKonnect
     pin: result.carddetails || "",
 
-    status:"Successful",
+    // Transaction status
+    status: "Successful",
 
-    transactionId:"TXN" + Date.now(),
+    transactionId: "TXN" + Date.now(),
+
+    // Security / verification
+    provider: "ClubKonnect",
 
     createdAt:
     admin.firestore.FieldValue.serverTimestamp()
