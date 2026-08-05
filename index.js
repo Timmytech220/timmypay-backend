@@ -712,19 +712,19 @@ app.post("/buy-data", async (req, res) => {
         else if (networkName === "GLO" && category === "DIRECT")
             profit = Number(settings.gloDirectProfit || 0);
 
-        // ============================
-        // 9MOBILE
-        // ============================
+        
+// ============================
+// 9MOBILE
+// ============================
 
-        else if (networkName === "9MOBILE" && category === "SME")
-            profit = Number(settings.ninemobileSmeProfit || 0);
+else if (networkName === "9MOBILE" && category === "SME")
+    profit = Number(settings.nineMobileSmeProfit || 0);
 
-        else if (networkName === "9MOBILE" && category === "AWOOF")
-            profit = Number(settings.ninemobileAwoofProfit || 0);
+else if (networkName === "9MOBILE" && category === "AWOOF")
+    profit = Number(settings.nineMobileAwoofProfit || 0);
 
-        else if (networkName === "9MOBILE" && category === "DIRECT")
-            profit = Number(settings.ninemobileDirectProfit || 0);
-
+else if (networkName === "9MOBILE" && category === "DIRECT")
+    profit = Number(settings.nineMobileDirectProfit || 0);
         // ============================
         // CALCULATE SELLING PRICE
         // ============================
