@@ -101,6 +101,50 @@ app.get("/data-plans", async (req, res) => {
 });
 
 
+// ================================
+// GET PROFIT WALLET
+// ================================
+app.get("/profit-wallet", async (req, res) => {
+
+    try {
+
+        const walletDoc = await db
+            .collection("profit")
+            .doc("wallet")
+            .get();
+
+        if (!walletDoc.exists) {
+
+            return res.json({
+                success: true,
+                wallet: {
+                    availableProfit: 0,
+                    totalProfit: 0,
+                    withdrawnProfit: 0
+                }
+            });
+
+        }
+
+        res.json({
+            success: true,
+            wallet: walletDoc.data()
+        });
+
+    } catch (error) {
+
+        console.error("GET PROFIT WALLET ERROR:", error);
+
+        res.status(500).json({
+            success: false,
+            error: error.message
+        });
+
+    }
+
+});
+
+
 // MOCK CABLE TV SMARTCARD VERIFICATION
 
 app.post("/verify-smartcard", async (req, res) => {
