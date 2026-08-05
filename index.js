@@ -755,9 +755,12 @@ app.post("/buy-electricity", async (req, res) => {
 });
 
 
-// ================================
-// BUY EDUCATION PIN
-// ================================
+
+
+// =================================
+// BUY EDUCATION PIN (JAMB + WAEC)
+// =================================
+
 app.post("/buy-education", async (req, res) => {
 
     const uid = req.headers["x-user-uid"];
@@ -770,89 +773,202 @@ app.post("/buy-education", async (req, res) => {
     } = req.body;
 
 
-    if (!uid) {
+
+    if(!uid){
 
         return res.status(400).json({
-
             success:false,
-
             error:"Missing UID"
-
         });
 
     }
 
 
+
     try {
 
 
-        // ============================
+        // ==========================
         // LOAD PROFIT SETTINGS
-        // ============================
+        // ==========================
 
-        const settingsDoc = await db
-            .collection("settings")
-            .doc("profitSettings")
-            .get();
-
-
-        const settings = settingsDoc.exists
-            ? settingsDoc.data()
-            : {};
+        const settingsDoc =
+        await db.collection("settings")
+        .doc("profitSettings")
+        .get();
 
 
-        // ============================
-        // EDUCATION PROFIT
-        // ============================
-
-        const profit = Number(
-            settings.educationProfit || 0
-        );
-
-
-        const cost = Number(apiCost || 0);
-
-
-        const sellingPrice = cost + profit;
+        const settings =
+        settingsDoc.exists
+        ? settingsDoc.data()
+        : {};
 
 
 
-        // ============================
+        const educationProfit =
+        Number(settings.educationProfit || 0);
+
+
+
+        const sellingPrice =
+        Number(apiCost) + educationProfit;
+
+
+
+
+        // ==========================
+        // CHECK USER WALLET
+        // ==========================
+
+        const walletRef =
+        db.collection("users")
+        .doc(uid);
+
+
+        const walletDoc =
+        await walletRef.get();
+
+
+
+        if(!walletDoc.exists){
+
+            return res.status(400).json({
+
+                success:false,
+                error:"User wallet not found"
+
+            });
+
+        }
+
+
+
+        const wallet =
+        walletDoc.data();
+
+
+
+        const balance =
+        Number(wallet.balance || 0);
+
+
+
+        if(balance < sellingPrice){
+
+            return res.status(400).json({
+
+                success:false,
+
+                error:"Insufficient wallet balance"
+
+            });
+
+        }
+
+
+
+
+        // ==========================
         // BUY FROM CLUBKONNECT
-        // ============================
+        // ==========================
 
-        const result = await buyEducation(
+
+        const result =
+        await buyEducation(
             examType,
             phone
         );
 
 
 
-        // ============================
-        // SAVE TRANSACTION
-        // ============================
+        console.log(
+            "EDUCATION RESPONSE:",
+            result
+        );
 
-        await db.collection("transactions").add({
+
+
+        if(
+            result.statuscode &&
+            result.statuscode !== "200"
+        ){
+
+            return res.status(400).json({
+
+                success:false,
+
+                error:
+                result.remark ||
+                "Education purchase failed"
+
+            });
+
+        }
+
+
+
+
+        // ==========================
+        // DEDUCT USER WALLET
+        // ==========================
+
+
+        await walletRef.update({
+
+            balance:
+            admin.firestore.FieldValue.increment(
+                -sellingPrice
+            )
+
+        });
+
+
+
+
+
+        // ==========================
+        // SAVE TRANSACTION
+        // ==========================
+
+
+        await db.collection("transactions")
+        .add({
 
             uid,
 
-            type:"Education Purchase",
+            type:
+            "Education Purchase",
 
             examType,
 
-            package: packageName,
+            packageName,
 
             phone,
 
-            amount:sellingPrice,
 
-            apiCost:cost,
+            amount:
+            sellingPrice,
 
-            profit,
 
-            status:"Successful",
+            apiCost:
+            Number(apiCost),
 
-            transactionId:"TXN" + Date.now(),
+
+            profit:
+            educationProfit,
+
+
+            status:
+            "Successful",
+
+
+            transactionId:
+            "TXN" + Date.now(),
+
+
+            pin:
+            result.carddetails || "",
+
 
             createdAt:
             admin.firestore.FieldValue.serverTimestamp()
@@ -861,21 +977,20 @@ app.post("/buy-education", async (req, res) => {
 
 
 
-        // ============================
-        // RESPONSE
-        // ============================
+
 
         res.json({
 
             success:true,
 
-            charged:sellingPrice,
+            charged:
+            sellingPrice,
 
-            apiCost:cost,
+            profit:
+            educationProfit,
 
-            profit,
-
-            data:result
+            data:
+            result
 
         });
 
@@ -890,19 +1005,21 @@ app.post("/buy-education", async (req, res) => {
         );
 
 
+
         res.status(500).json({
 
             success:false,
 
-            error:error.message ||
+            error:
+            error.message ||
             "Education purchase failed"
 
         });
 
     }
 
-});
 
+});
 
 
      
