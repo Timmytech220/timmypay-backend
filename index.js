@@ -38,22 +38,66 @@ app.use(express.json());
 // --- ROUTES ---
 app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
 
+
 // ================================
-// GET DATA PLANS
+// GET DATA PLANS (Dynamic Prices)
 // ================================
-app.get("/data-plans", (req, res) => {
+app.get("/data-plans", async (req, res) => {
+
     try {
+
+        // Load current profit settings
+        const settingsDoc = await db
+            .collection("settings")
+            .doc("profitSettings")
+            .get();
+
+        const settings = settingsDoc.exists
+            ? settingsDoc.data()
+            : {};
+
+        // Make a deep copy so we don't modify the original object
+        const plans = JSON.parse(JSON.stringify(dataPlans));
+
+        // Loop through every network
+        for (const network in plans) {
+
+            // Loop through every category
+            for (const category in plans[network]) {
+
+                const profit = getProfit(settings, network, category);
+
+                // Loop through every plan
+                for (const planId in plans[network][category]) {
+
+                    const plan = plans[network][category][planId];
+
+                    const apiCost = Number(plan.apiCost || 0);
+
+                    plan.price = apiCost + profit;
+
+                }
+
+            }
+
+        }
+
         res.json({
             success: true,
-            plans: dataPlans
+            plans
         });
+
     } catch (error) {
+
         console.error("DATA PLANS ERROR:", error);
+
         res.status(500).json({
             success: false,
             error: "Could not load data plans"
         });
+
     }
+
 });
 
 
