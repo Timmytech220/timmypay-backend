@@ -784,22 +784,34 @@ app.post("/buy-data", async (req, res) => {
             balance: admin.firestore.FieldValue.increment(-sellingPrice)
         });
 
-        // ============================
+        
+// ============================
 // UPDATE PROFIT WALLET
 // ============================
 
-await db.collection("profit")
-    .doc("wallet")
-    .set({
+try {
 
-        availableProfit: admin.firestore.FieldValue.increment(profit),
+    console.log("Updating Profit Wallet...");
 
-        totalProfit: admin.firestore.FieldValue.increment(profit),
+    await db.collection("profit")
+        .doc("wallet")
+        .set({
 
-        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+            availableProfit: admin.firestore.FieldValue.increment(Number(profit)),
 
-    }, { merge: true });
+            totalProfit: admin.firestore.FieldValue.increment(Number(profit)),
 
+            updatedAt: admin.firestore.FieldValue.serverTimestamp()
+
+        }, { merge: true });
+
+    console.log("Profit Wallet Updated Successfully");
+
+} catch (err) {
+
+    console.error("PROFIT WALLET ERROR:", err);
+
+}
         // ============================
         // SAVE TRANSACTION
         // ============================
