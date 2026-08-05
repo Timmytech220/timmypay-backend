@@ -102,6 +102,44 @@ app.get("/data-plans", async (req, res) => {
 });
 
 
+
+
+
+// ================================
+// GET EDUCATION PACKAGES
+// ================================
+app.get("/education-packages", async (req, res) => {
+
+    try {
+
+        const packages = await getEducationPackages();
+
+        res.json({
+            success: true,
+            packages
+        });
+
+
+    } catch(error){
+
+        console.error(
+            "EDUCATION PACKAGES ERROR:",
+            error.message
+        );
+
+        res.status(500).json({
+
+            success:false,
+
+            error:"Could not load education packages"
+
+        });
+
+    }
+
+});
+
+
 // ================================
 // GET PROFIT WALLET
 // ================================
