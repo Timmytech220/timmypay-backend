@@ -16,6 +16,7 @@ import {
     verifyCable,
     buyCable
 } from "./providers/clubkonnect.js";
+import { getProfit } from "./utils/profitHelper.js";
 const app = express();
 
 // --- CONFIGURATION ---
