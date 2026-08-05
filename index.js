@@ -929,8 +929,6 @@ app.post("/buy-education", async (req, res) => {
         // ==========================
         // SAVE TRANSACTION
         // ==========================
-
-
         await db.collection("transactions").add({
 
     uid,
@@ -951,6 +949,8 @@ app.post("/buy-education", async (req, res) => {
 
     profit,
 
+    pin: result.carddetails || "",
+
     status:"Successful",
 
     transactionId:"TXN" + Date.now(),
@@ -959,7 +959,6 @@ app.post("/buy-education", async (req, res) => {
     admin.firestore.FieldValue.serverTimestamp()
 
 });
-
 
 
 
