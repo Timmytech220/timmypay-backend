@@ -785,6 +785,22 @@ app.post("/buy-data", async (req, res) => {
         });
 
         // ============================
+// UPDATE PROFIT WALLET
+// ============================
+
+await db.collection("profit")
+    .doc("wallet")
+    .set({
+
+        availableProfit: admin.firestore.FieldValue.increment(profit),
+
+        totalProfit: admin.firestore.FieldValue.increment(profit),
+
+        updatedAt: admin.firestore.FieldValue.serverTimestamp()
+
+    }, { merge: true });
+
+        // ============================
         // SAVE TRANSACTION
         // ============================
 
