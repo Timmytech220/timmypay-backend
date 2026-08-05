@@ -755,6 +755,155 @@ app.post("/buy-electricity", async (req, res) => {
 });
 
 
+// ================================
+// BUY EDUCATION PIN
+// ================================
+app.post("/buy-education", async (req, res) => {
+
+    const uid = req.headers["x-user-uid"];
+
+    const {
+        examType,
+        phone,
+        packageName,
+        apiCost
+    } = req.body;
+
+
+    if (!uid) {
+
+        return res.status(400).json({
+
+            success:false,
+
+            error:"Missing UID"
+
+        });
+
+    }
+
+
+    try {
+
+
+        // ============================
+        // LOAD PROFIT SETTINGS
+        // ============================
+
+        const settingsDoc = await db
+            .collection("settings")
+            .doc("profitSettings")
+            .get();
+
+
+        const settings = settingsDoc.exists
+            ? settingsDoc.data()
+            : {};
+
+
+        // ============================
+        // EDUCATION PROFIT
+        // ============================
+
+        const profit = Number(
+            settings.educationProfit || 0
+        );
+
+
+        const cost = Number(apiCost || 0);
+
+
+        const sellingPrice = cost + profit;
+
+
+
+        // ============================
+        // BUY FROM CLUBKONNECT
+        // ============================
+
+        const result = await buyEducation(
+            examType,
+            phone
+        );
+
+
+
+        // ============================
+        // SAVE TRANSACTION
+        // ============================
+
+        await db.collection("transactions").add({
+
+            uid,
+
+            type:"Education Purchase",
+
+            examType,
+
+            package: packageName,
+
+            phone,
+
+            amount:sellingPrice,
+
+            apiCost:cost,
+
+            profit,
+
+            status:"Successful",
+
+            transactionId:"TXN" + Date.now(),
+
+            createdAt:
+            admin.firestore.FieldValue.serverTimestamp()
+
+        });
+
+
+
+        // ============================
+        // RESPONSE
+        // ============================
+
+        res.json({
+
+            success:true,
+
+            charged:sellingPrice,
+
+            apiCost:cost,
+
+            profit,
+
+            data:result
+
+        });
+
+
+
+    } catch(error){
+
+
+        console.error(
+            "BUY EDUCATION ERROR:",
+            error
+        );
+
+
+        res.status(500).json({
+
+            success:false,
+
+            error:error.message ||
+            "Education purchase failed"
+
+        });
+
+    }
+
+});
+
+
 
      
 // ================================
