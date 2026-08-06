@@ -1086,64 +1086,55 @@ app.post("/buy-education", async (req, res) => {
 
 
 
-// ================================
-// FUND BETTING WALLET
-// ================================
+
+
+
+// ==========================
+// BUY BETTING WALLET
+// ==========================
 app.post("/buy-betting", async (req, res) => {
-
-    const uid = req.headers["x-user-uid"];
-
-    const {
-        bettingCompany,
-        customerId,
-        customerName,
-        amount
-    } = req.body;
-
-    if (!uid) {
-
-        return res.status(400).json({
-
-            success: false,
-
-            error: "Missing UID"
-
-        });
-
-    }
 
     try {
 
-        // ==========================
-        // LOAD PROFIT SETTINGS
-        // ==========================
-        const settingsDoc = await db
-            .collection("settings")
-            .doc("profitSettings")
-            .get();
+        const {
 
-        const settings = settingsDoc.exists
-            ? settingsDoc.data()
-            : {};
+            uid,
 
-        const profit = Number(
-            settings.bettingProfit || 0
-        );
+            bettingCompany,
 
-        const cost = Number(amount);
+            customerId,
 
-        const sellingPrice = cost + profit;
+            customerName,
 
-        // ==========================
-        // CHECK USER WALLET
-        // ==========================
-        const walletRef = db
-            .collection("users")
-            .doc(uid);
+            amount
 
-        const walletDoc = await walletRef.get();
+        } = req.body;
 
-        if (!walletDoc.exists) {
+        if (
+            !uid ||
+            !bettingCompany ||
+            !customerId ||
+            !customerName ||
+            !amount
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error: "Missing required fields"
+
+            });
+
+        }
+
+        const walletRef =
+            db.collection("wallets").doc(uid);
+
+        const walletSnap =
+            await walletRef.get();
+
+        if (!walletSnap.exists) {
 
             return res.status(404).json({
 
@@ -1155,37 +1146,33 @@ app.post("/buy-betting", async (req, res) => {
 
         }
 
-        const wallet = walletDoc.data();
+        const wallet =
+            walletSnap.data();
+        
 
-        if ((wallet.balance || 0) < sellingPrice) {
+        const settingsDoc =
+            await db
+            .collection("settings")
+            .doc("profitSettings")
+            .get();
 
-            return res.status(400).json({
+        const settings =
+            settingsDoc.exists
+            ? settingsDoc.data()
+            : {};
 
-                success: false,
+        const profit =
+            Number(settings.bettingProfit || 0);
 
-                error: "Insufficient wallet balance"
+        const cost =
+            Number(amount);
 
-            });
-
-        }
-
-        // ==========================
-        // FUND BETTING
-        // ==========================
-        const result = await fundBettingWallet(
-            bettingCompany,
-            customerId,
-            cost
-        );
-
-        console.log(
-            "BETTING RESPONSE:",
-            result
-        );
+        const sellingPrice =
+            cost + profit;
 
         if (
-            result.status &&
-            result.status !== "ORDER_RECEIVED"
+            Number(wallet.balance) <
+            sellingPrice
         ) {
 
             return res.status(400).json({
@@ -1193,8 +1180,53 @@ app.post("/buy-betting", async (req, res) => {
                 success: false,
 
                 error:
-                result.status ||
-                "Betting funding failed"
+                "Insufficient wallet balance"
+
+            });
+
+        }
+
+        // ==========================
+        // BUY FROM CLUBKONNECT
+        // ==========================
+
+        const result =
+        await fundBettingWallet(
+
+            bettingCompany,
+
+            customerId,
+
+            cost
+
+        );
+
+        console.log(
+
+            "BETTING RESPONSE:",
+
+            result
+
+        );
+        
+
+        if (
+
+            result.statuscode &&
+
+            result.statuscode !== "200"
+
+        ) {
+
+            return res.status(400).json({
+
+                success: false,
+
+                error:
+
+                    result.remark ||
+
+                    "Betting funding failed"
 
             });
 
@@ -1203,22 +1235,28 @@ app.post("/buy-betting", async (req, res) => {
         // ==========================
         // DEDUCT WALLET
         // ==========================
+
         await walletRef.update({
 
             balance:
-            admin.firestore.FieldValue.increment(
-                -sellingPrice
-            )
+
+                admin.firestore.FieldValue.increment(
+
+                    -sellingPrice
+
+                )
 
         });
 
         // ==========================
         // SAVE TRANSACTION
         // ==========================
+
         await db.collection("transactions").add({
 
             uid,
 
+            // Service information
             type: "Betting Wallet Funding",
 
             network: "Betting",
@@ -1227,31 +1265,38 @@ app.post("/buy-betting", async (req, res) => {
 
             plan: "Wallet Funding",
 
+            // Customer information
             customerId,
 
             customerName,
 
+            // Financial information
             amount: sellingPrice,
 
             apiCost: cost,
 
             profit,
 
+            // Provider
             provider: "ClubKonnect",
 
+            // Status
             status: "Successful",
 
             transactionId:
-            "TXN" + Date.now(),
+
+                "TXN" + Date.now(),
 
             createdAt:
-            admin.firestore.FieldValue.serverTimestamp()
+
+                admin.firestore.FieldValue.serverTimestamp()
 
         });
 
         // ==========================
         // RESPONSE
         // ==========================
+
         res.json({
 
             success: true,
@@ -1269,8 +1314,11 @@ app.post("/buy-betting", async (req, res) => {
     } catch (error) {
 
         console.error(
+
             "BETTING FUND ERROR:",
+
             error
+
         );
 
         res.status(500).json({
@@ -1278,15 +1326,25 @@ app.post("/buy-betting", async (req, res) => {
             success: false,
 
             error:
-            error.message ||
-            "Betting funding failed"
+
+                error.message ||
+
+                "Betting funding failed"
 
         });
 
     }
 
 });
-    
+
+
+
+
+
+
+
+
+
 
      
 // ================================
