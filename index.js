@@ -365,6 +365,39 @@ app.post("/verify-cable", async (req, res) => {
 
 
 
+// ================================
+// GET BETTING COMPANIES
+// ================================
+app.get("/betting-companies", async (req, res) => {
+
+    try {
+
+        const companies = await getBettingCompanies();
+
+        res.json({
+            success: true,
+            companies
+        });
+
+    } catch (error) {
+
+        console.error(
+            "BETTING COMPANIES ERROR:",
+            error
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            error: "Could not load betting companies"
+
+        });
+
+    }
+
+});
+
 
 
 // ================================
