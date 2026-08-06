@@ -1089,7 +1089,7 @@ app.post("/buy-education", async (req, res) => {
 // ================================
 // FUND BETTING WALLET
 // ================================
-app.post("/fund-betting", async (req, res) => {
+app.post("/buy-betting", async (req, res) => {
 
     const uid = req.headers["x-user-uid"];
 
