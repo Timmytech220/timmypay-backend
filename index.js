@@ -399,6 +399,79 @@ app.get("/betting-companies", async (req, res) => {
 });
 
 
+// ================================
+// VERIFY BETTING CUSTOMER
+// ================================
+app.post("/verify-betting", async (req, res) => {
+
+    const {
+        bettingCompany,
+        customerId
+    } = req.body;
+
+    if (!bettingCompany || !customerId) {
+
+        return res.status(400).json({
+
+            success: false,
+
+            error: "Missing betting company or customer ID"
+
+        });
+
+    }
+
+    try {
+
+        const result = await verifyBettingCustomer(
+            bettingCompany,
+            customerId
+        );
+
+        if (
+            result.customer_name &&
+            !result.customer_name
+                .toLowerCase()
+                .includes("error")
+        ) {
+
+            return res.json({
+
+                success: true,
+
+                customerName: result.customer_name
+
+            });
+
+        }
+
+        return res.status(400).json({
+
+            success: false,
+
+            error: "Invalid Customer ID"
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "VERIFY BETTING ERROR:",
+            error
+        );
+
+        res.status(500).json({
+
+            success: false,
+
+            error: "Customer verification failed"
+
+        });
+
+    }
+
+});
+
 
 // ================================
 // BUY CABLE TV
