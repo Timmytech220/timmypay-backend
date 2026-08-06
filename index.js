@@ -757,10 +757,12 @@ app.post("/buy-electricity", async (req, res) => {
 
 
 
-// =================================
-// BUY EDUCATION PIN (JAMB + WAEC)
-// =================================
 
+
+        
+// ================================
+// BUY EDUCATION PIN
+// ================================
 app.post("/buy-education", async (req, res) => {
 
     const uid = req.headers["x-user-uid"];
@@ -772,248 +774,206 @@ app.post("/buy-education", async (req, res) => {
         apiCost
     } = req.body;
 
-
-
-    if(!uid){
-
+    if (!uid) {
         return res.status(400).json({
-            success:false,
-            error:"Missing UID"
+            success: false,
+            error: "Missing UID"
         });
-
     }
 
-
-
     try {
-
 
         // ==========================
         // LOAD PROFIT SETTINGS
         // ==========================
 
-        const settingsDoc =
-        await db.collection("settings")
-        .doc("profitSettings")
-        .get();
+        const settingsDoc = await db
+            .collection("settings")
+            .doc("profitSettings")
+            .get();
 
-
-        const settings =
-        settingsDoc.exists
-        ? settingsDoc.data()
-        : {};
-
-
-
-        const educationProfit =
-        Number(settings.educationProfit || 0);
-
-
-
-        const sellingPrice =
-        Number(apiCost) + educationProfit;
-
-
-
+        const settings = settingsDoc.exists
+            ? settingsDoc.data()
+            : {};
 
         // ==========================
-        // CHECK USER WALLET
+        // CALCULATE COST & PROFIT
+        // ==========================
+
+        const cost = Number(apiCost || 0);
+
+        const profit = Number(
+            settings.educationProfit || 0
+        );
+
+        const sellingPrice = cost + profit;
+
+        // ==========================
+        // USER WALLET
         // ==========================
 
         const walletRef =
-        db.collection("users")
-        .doc(uid);
-
+            db.collection("users").doc(uid);
 
         const walletDoc =
-        await walletRef.get();
+            await walletRef.get();
 
+        if (!walletDoc.exists) {
 
-
-        if(!walletDoc.exists){
-
-            return res.status(400).json({
-
-                success:false,
-                error:"User wallet not found"
-
+            return res.status(404).json({
+                success: false,
+                error: "User not found"
             });
 
         }
-
-
 
         const wallet =
-        walletDoc.data();
-
-
+            walletDoc.data();
 
         const balance =
-        Number(wallet.balance || 0);
+            Number(wallet.balance || 0);
 
-
-
-        if(balance < sellingPrice){
+        if (balance < sellingPrice) {
 
             return res.status(400).json({
-
-                success:false,
-
-                error:"Insufficient wallet balance"
-
+                success: false,
+                error: "Insufficient wallet balance"
             });
 
         }
-
-
-
 
         // ==========================
         // BUY FROM CLUBKONNECT
         // ==========================
 
-
         const result =
-        await buyEducation(
-            examType,
-            phone
-        );
-
-
+            await buyEducation(
+                examType,
+                phone
+            );
 
         console.log(
             "EDUCATION RESPONSE:",
             result
         );
 
-
-
-        if(
+        if (
             result.statuscode &&
             result.statuscode !== "200"
-        ){
+        ) {
 
             return res.status(400).json({
-
-                success:false,
-
+                success: false,
                 error:
-                result.remark ||
-                "Education purchase failed"
-
+                    result.remark ||
+                    "Education purchase failed"
             });
 
         }
-
-
-
 
         // ==========================
         // DEDUCT USER WALLET
         // ==========================
 
-
         await walletRef.update({
 
             balance:
-            admin.firestore.FieldValue.increment(
-                -sellingPrice
-            )
+                admin.firestore.FieldValue.increment(
+                    -sellingPrice
+                )
 
         });
-
-
-
-
 
         // ==========================
         // SAVE TRANSACTION
         // ==========================
+
         await db.collection("transactions").add({
 
-    uid,
+            uid,
 
-    // Service information
-    type: "Education Purchase",
+            // Service information
+            type: "Education Purchase",
 
-    network: "Education",
+            network: "Education",
 
-    category: "Exam PIN",
+            category: "Exam PIN",
 
-    plan: packageName,
+            plan: packageName,
 
-    examType,
+            examType,
 
-    // Customer information
-    phone,
+            // Customer information
+            phone,
 
-    // Financial information
-    amount: sellingPrice,
+            // Financial information
+            amount: sellingPrice,
 
-    apiCost: cost,
+            apiCost: cost,
 
-    profit,
+            profit,
 
-    // PIN information from ClubKonnect
-    pin: result.carddetails || "",
+            // PIN information
+            pin:
+                result.carddetails || "",
 
-    // Transaction status
-    status: "Successful",
+            // Status
+            status: "Successful",
 
-    transactionId: "TXN" + Date.now(),
+            transactionId:
+                "TXN" + Date.now(),
 
-    // Security / verification
-    provider: "ClubKonnect",
+            provider: "ClubKonnect",
 
-    createdAt:
-    admin.firestore.FieldValue.serverTimestamp()
-
-});
-
-
-
-        res.json({
-
-            success:true,
-
-            charged:
-            sellingPrice,
-
-            profit:
-            educationProfit,
-
-            data:
-            result
+            createdAt:
+                admin.firestore.FieldValue.serverTimestamp()
 
         });
 
+        // ==========================
+        // RESPONSE
+        // ==========================
 
+        res.json({
 
-    } catch(error){
+            success: true,
 
+            charged: sellingPrice,
+
+            apiCost: cost,
+
+            profit,
+
+            data: result
+
+        });
+
+    } catch (error) {
 
         console.error(
             "BUY EDUCATION ERROR:",
             error
         );
 
-
-
         res.status(500).json({
 
-            success:false,
+            success: false,
 
             error:
-            error.message ||
-            "Education purchase failed"
+                error.message ||
+                "Education purchase failed"
 
         });
 
     }
 
-
 });
 
+
+
+
+
+    
 
      
 // ================================
