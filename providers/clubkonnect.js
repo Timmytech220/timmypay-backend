@@ -241,13 +241,84 @@ async function buyEducation(
 }
 
 
+
+
+// ================================
+// GET BETTING COMPANIES
+// ================================
+async function getBettingCompanies() {
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIBettingTypeV2.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}`;
+
+    const response = await axios.get(url);
+
+    return response.data;
+}
+
+
+// ================================
+// VERIFY BETTING CUSTOMER
+// ================================
+async function verifyBettingCustomer(
+    bettingCompany,
+    customerId
+) {
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIVerifyBettingV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&BettingCompany=${bettingCompany}` +
+        `&CustomerID=${customerId}`;
+
+    const response = await axios.get(url);
+
+    return response.data;
+}
+
+
+// ================================
+// FUND BETTING WALLET
+// ================================
+async function fundBettingWallet(
+    bettingCompany,
+    customerId,
+    amount
+) {
+
+    const requestId = Date.now().toString();
+
+    const url =
+        `${NELLOBYTE_BASE_URL}/APIBettingV1.asp` +
+        `?UserID=${process.env.CK_USERID}` +
+        `&APIKey=${process.env.CK_APIKEY}` +
+        `&BettingCompany=${bettingCompany}` +
+        `&CustomerID=${customerId}` +
+        `&Amount=${amount}` +
+        `&RequestID=${requestId}`;
+
+    const response = await axios.get(url);
+
+    return response.data;
+}
+
 export {
+
     buyAirtime,
     buyData,
     verifyMeter,
     buyElectricity,
     verifyCable,
     buyCable,
+
     getEducationPackages,
-    buyEducation
+    buyEducation,
+
+    getBettingCompanies,
+    verifyBettingCustomer,
+    fundBettingWallet
+
 };
