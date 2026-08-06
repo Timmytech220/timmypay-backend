@@ -1232,6 +1232,7 @@ app.post("/buy-betting", async (req, res) => {
 
         }
 
+
         // ==========================
         // DEDUCT WALLET
         // ==========================
@@ -1239,14 +1240,42 @@ app.post("/buy-betting", async (req, res) => {
         await walletRef.update({
 
             balance:
-
                 admin.firestore.FieldValue.increment(
-
                     -sellingPrice
-
                 )
 
         });
+
+        // ==========================
+        // UPDATE PROFIT WALLET
+        // ==========================
+
+        try {
+
+            await db.collection("profit").doc("wallet").set({
+
+                totalProfit:
+                    admin.firestore.FieldValue.increment(profit),
+
+                updatedAt:
+                    admin.firestore.FieldValue.serverTimestamp()
+
+            }, { merge: true });
+
+            console.log("Profit Wallet Updated Successfully");
+
+        } catch (err) {
+
+            console.error("PROFIT WALLET ERROR:", err);
+
+        }
+
+        const walletDoc =
+            await db.collection("profit").doc("wallet").get();
+
+        console.log("Wallet Exists:", walletDoc.exists);
+
+        console.log("Wallet Data:", walletDoc.data());
 
         // ==========================
         // SAVE TRANSACTION
@@ -1284,11 +1313,9 @@ app.post("/buy-betting", async (req, res) => {
             status: "Successful",
 
             transactionId:
-
                 "TXN" + Date.now(),
 
             createdAt:
-
                 admin.firestore.FieldValue.serverTimestamp()
 
         });
@@ -1314,11 +1341,8 @@ app.post("/buy-betting", async (req, res) => {
     } catch (error) {
 
         console.error(
-
             "BETTING FUND ERROR:",
-
             error
-
         );
 
         res.status(500).json({
@@ -1326,9 +1350,7 @@ app.post("/buy-betting", async (req, res) => {
             success: false,
 
             error:
-
                 error.message ||
-
                 "Betting funding failed"
 
         });
