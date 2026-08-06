@@ -14,9 +14,17 @@ import {
     buyElectricity,
     verifyCable,
     buyCable,
+
     getEducationPackages,
-    buyEducation
+    buyEducation,
+
+    getBettingCompanies,
+    verifyBettingCustomer,
+    fundBettingWallet
+
 } from "./providers/clubkonnect.js";
+
+
 import { getProfit } from "./utils/profitHelper.js";
 const app = express();
 
