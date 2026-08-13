@@ -1,4 +1,6 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import axios from "axios";
 import cors from "cors";
 import dataPlans from "./dataPlans.js";
@@ -27,6 +29,8 @@ import {
 
 import { getProfit } from "./utils/profitHelper.js";
 const app = express();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // --- CONFIGURATION ---
 const MONNIFY_BASE_URL = 'https://sandbox.monnify.com';
