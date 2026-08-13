@@ -49,7 +49,9 @@ app.use(express.json());
 
 
 // --- ROUTES ---
-app.get("/", (req, res) => res.send("TimmyPay Backend is Running!"));
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "Index.html"));
+});
 
 
 // ================================
